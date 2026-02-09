@@ -9,6 +9,14 @@ export type UserDocument = User & Document;
 export class User {
   @ApiProperty({
     required: true,
+    description: 'Идентификатор пользователя',
+    type: 'string',
+    example: '6982fccfc36f4c3d5cda354d',
+  })
+  id: string;
+
+  @ApiProperty({
+    required: true,
     description: 'Электронная почта',
     type: 'string',
     example: 'temp@mail.ru',
@@ -27,7 +35,7 @@ export class User {
     example: 'Иван',
   })
   @Prop({
-    required: false,
+    required: true,
     trim: true,
   })
   firstName: string;
@@ -36,8 +44,14 @@ export class User {
     description: 'Фамилия пользователя',
     required: false,
     example: 'Иванов',
+    type: 'string',
   })
-  @Prop({ required: false, trim: true })
+  @Prop({
+    required: false,
+    trim: true,
+    type: String,
+    name: 'lastName',
+  })
   lastName: string;
 
   @ApiProperty({
@@ -48,7 +62,9 @@ export class User {
   })
   @Prop({
     required: false,
+    type: String,
     trim: true,
+    name: 'birthdate',
   })
   birthdate: string;
 

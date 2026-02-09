@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { User, UserDocument } from '../schemas/user.schema';
 import { UpdateUser } from 'src/types/update-user';
 import { CreateUser } from 'src/types/create-user';
+import { UpdateMe } from 'src/types/update-me';
 
 @Injectable()
 export class UserService {
@@ -39,6 +40,21 @@ export class UserService {
     if (!existingUser) {
       throw new NotFoundException(`Пользователь с такиим ID ${id} не найден`);
     }
+
+    return existingUser;
+  }
+
+  async updateMe(id: string, data: UpdateMe): Promise<UserDocument> {
+    const existingUser = await this.userModel.findOneAndUpdate(
+      { _id: id },
+      data,
+    );
+
+    if (!existingUser) {
+      throw new NotFoundException('Пользователь не найден');
+    }
+
+    await existingUser.save();
 
     return existingUser;
   }

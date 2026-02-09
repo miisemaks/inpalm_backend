@@ -8,6 +8,8 @@ import {
   Param,
   HttpCode,
   HttpStatus,
+  Req,
+  Headers,
 } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { CreateUser } from '../types/create-user';
@@ -18,10 +20,17 @@ import {
   getSchemaPath,
 } from '@nestjs/swagger';
 import { User } from 'src/schemas/user.schema';
+import type { Request } from 'express';
+import { JwtService } from '@nestjs/jwt';
+import { UserRole } from 'src/types/user-role';
+import { UpdateMe } from 'src/types/update-me';
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly usersService: UserService) {}
+  constructor(
+    private readonly usersService: UserService,
+    private jwtService: JwtService,
+  ) {}
 
   @ApiCreatedResponse({
     description: 'Пользователь успешно добавлен',
@@ -73,5 +82,20 @@ export class UserController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id') id: string) {
     return this.usersService.remove(id);
+  }
+
+  @ApiOkResponse({
+    description: 'Успешный ответ',
+    type: User,
+  })
+  @Put('me')
+  async updateMe(@Body() updateUserDto: UpdateMe, @Req() req: Request) {
+    const token = req.headers.authorization?.split(' ')[1];
+    const decoded = this.jwtService.decode<{
+      email: string;
+      sub: string;
+      role: UserRole;
+    }>(token!);
+    return this.usersService.updateMe(decoded.sub, updateUserDto);
   }
 }

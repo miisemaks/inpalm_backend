@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsString } from 'class-validator';
+import { IsEmail, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class AuthRegister {
   @ApiProperty({
@@ -15,6 +15,7 @@ export class AuthRegister {
     default: '',
   })
   @IsString()
+  @MinLength(6)
   password: string;
 
   @ApiProperty({
@@ -27,20 +28,24 @@ export class AuthRegister {
   firstName: string;
 
   @ApiProperty({
-    required: true,
-    type: 'string',
-    example: 'Иван',
-    default: '',
-  })
-  @IsString()
-  lastName: string;
-
-  @ApiProperty({
-    required: true,
+    required: false,
     type: 'string',
     example: 'Иванов',
     default: '',
+    nullable: true,
   })
   @IsString()
-  birthdate: string;
+  @IsOptional()
+  lastName?: string;
+
+  @ApiProperty({
+    required: false,
+    type: 'string',
+    example: 'Иванов',
+    default: '',
+    nullable: true,
+  })
+  @IsOptional()
+  @IsString()
+  birthdate?: string;
 }
