@@ -9,9 +9,8 @@ import {
   HttpCode,
   HttpStatus,
   Req,
-  Headers,
 } from '@nestjs/common';
-import { UserService } from '../services/user.service';
+import { UserService } from './user.service';
 import { CreateUser } from '../types/create-user';
 import { UpdateUser } from '../types/update-user';
 import {
@@ -19,7 +18,7 @@ import {
   ApiOkResponse,
   getSchemaPath,
 } from '@nestjs/swagger';
-import { User } from 'src/schemas/user.schema';
+import { User } from 'src/user/user.schema';
 import type { Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
 import { UserRole } from 'src/types/user-role';

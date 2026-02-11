@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UsersModule } from './modules/user.module';
+import { UsersModule } from './user/user.module';
 import { Connection } from 'mongoose';
 import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from './modules/auth.module';
+import { AuthModule } from './auth/auth.module';
+import { FirebaseModule } from './firebase/firebase.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AuthModule } from './modules/auth.module';
       },
     ),
     ConfigModule.forRoot(),
+    FirebaseModule,
     UsersModule,
     AuthModule,
   ],

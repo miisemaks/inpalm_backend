@@ -2,13 +2,12 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AuthService } from '../services/auth.service';
-import { AuthController } from '../controllers/auth.controller';
-import { UsersModule } from '../modules/user.module';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
+import { UsersModule } from '../user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Auth, AuthSchema } from 'src/schemas/auth.schema';
-import { User, UserSchema } from 'src/schemas/user.schema';
-// import { JwtStrategy } from '../strategies/jwt.strategy';
+import { Auth, AuthSchema } from 'src/auth/auth.schema';
+import { User, UserSchema } from 'src/user/user.schema';
 
 @Module({
   imports: [

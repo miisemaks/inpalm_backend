@@ -4,6 +4,14 @@ import { IsEmail, IsString } from 'class-validator';
 export class AuthLogin {
   @ApiProperty({
     required: true,
+  })
+  @IsString()
+  token: string;
+}
+
+export class AuthLoginTest {
+  @ApiProperty({
+    required: true,
     example: 'temp@mail.ru',
   })
   @IsEmail()

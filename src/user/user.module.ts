@@ -5,10 +5,10 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserService } from '../services/user.service';
-import { UserController } from '../controllers/user.controller';
-import { User, UserSchema } from '../schemas/user.schema';
-import { AuthMiddleware } from 'src/middlewares/auth.middleware';
+import { UserService } from './user.service';
+import { UserController } from './user.controller';
+import { User, UserSchema } from './user.schema';
+import { AuthMiddleware } from 'src/auth/auth.middleware';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 

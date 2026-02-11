@@ -7,7 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Request, Response, NextFunction } from 'express';
 import { Model } from 'mongoose';
-import { User, UserDocument } from 'src/schemas/user.schema';
+import { User, UserDocument } from 'src/user/user.schema';
 import { UserRole } from 'src/types/user-role';
 
 @Injectable()
