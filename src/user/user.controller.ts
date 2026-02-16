@@ -11,8 +11,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUser } from '../types/create-user';
-import { UpdateUser } from '../types/update-user';
+import { CreateUser, UpdateUser, UpdateMe } from './dto';
 import {
   ApiCreatedResponse,
   ApiOkResponse,
@@ -22,7 +21,6 @@ import { User } from 'src/user/user.schema';
 import type { Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
 import { UserRole } from 'src/types/user-role';
-import { UpdateMe } from 'src/types/update-me';
 
 @Controller('users')
 export class UserController {

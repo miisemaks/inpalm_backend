@@ -5,6 +5,7 @@ import { Connection } from 'mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { FirebaseModule } from './firebase/firebase.module';
+import { PublicationModule } from './publication/publication.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { FirebaseModule } from './firebase/firebase.module';
     FirebaseModule,
     UsersModule,
     AuthModule,
+    PublicationModule,
   ],
 })
 export class AppModule {}

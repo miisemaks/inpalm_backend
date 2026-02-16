@@ -7,7 +7,7 @@ import { Auth, AuthDocument } from 'src/auth/auth.schema';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcryptjs';
 import { UserRole } from 'src/types/user-role';
-import { AuthRegister } from 'src/types/auth-register';
+import { AuthRegister } from 'src/auth/dto/auth-register';
 import { FirebaseService } from 'src/firebase/firebase.service';
 
 @Injectable()
