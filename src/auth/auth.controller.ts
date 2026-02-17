@@ -1,4 +1,13 @@
-import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpCode,
+  HttpStatus,
+  Get,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 import { AuthLogin, AuthLoginTest } from 'src/auth/dto/auth-login';
 import { AuthRegister } from 'src/auth/dto/auth-register';
@@ -26,5 +35,16 @@ export class AuthController {
   @HttpCode(HttpStatus.ACCEPTED)
   async login(@Body() data: AuthLogin) {
     return this.authService.login(data.token);
+  }
+
+  // тестовая для просмотра регистрации
+  @Get('auths')
+  async getAuths() {
+    return this.authService.getAuths();
+  }
+
+  @Delete('auth/:id')
+  async deleteAuth(@Param('id') id: string) {
+    return this.authService.removeAuth(id);
   }
 }

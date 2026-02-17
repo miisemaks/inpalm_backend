@@ -48,6 +48,8 @@ export class UserService {
       data,
     );
 
+    console.log('data', data);
+
     if (!existingUser) {
       throw new NotFoundException('Пользователь не найден');
     }

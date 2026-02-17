@@ -35,12 +35,12 @@ export class AuthMiddleware implements NestMiddleware {
 
   private async validateToken(token: string): Promise<boolean> {
     const decoded = this.jwtService.decode<{
+      userId: string;
       email: string;
-      sub: string;
       role: UserRole;
     }>(token);
 
-    const user = await this.userModel.findById(decoded.sub);
+    const user = await this.userModel.findById(decoded.userId);
 
     if (!user) {
       return false;

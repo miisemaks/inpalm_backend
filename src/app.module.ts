@@ -6,6 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { FirebaseModule } from './firebase/firebase.module';
 import { PublicationModule } from './publication/publication.module';
+import { MediaModule } from './media/media.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -28,6 +30,12 @@ import { PublicationModule } from './publication/publication.module';
     UsersModule,
     AuthModule,
     PublicationModule,
+    MediaModule,
+    MulterModule.registerAsync({
+      useFactory: () => ({
+        dest: '../photos',
+      }),
+    }),
   ],
 })
 export class AppModule {}

@@ -90,9 +90,10 @@ export class UserController {
     const token = req.headers.authorization?.split(' ')[1];
     const decoded = this.jwtService.decode<{
       email: string;
-      sub: string;
+      userId: string;
       role: UserRole;
     }>(token!);
-    return this.usersService.updateMe(decoded.sub, updateUserDto);
+    console.log('decoded', decoded);
+    return this.usersService.updateMe(decoded.userId, updateUserDto);
   }
 }

@@ -54,7 +54,7 @@ export class AuthService {
 
     const token = this.jwtService.sign({
       email: user.email,
-      sub: user._id,
+      userId: user._id,
       role: user.role,
     });
 
@@ -100,15 +100,21 @@ export class AuthService {
 
     await newAuth.save();
 
-    const fbToken = await auth.createCustomToken(newAuth._id.toString(), {
+    // const fbToken = await auth.createCustomToken(newAuth._id.toString(), {
+    //   email: newUser.email,
+    //   userId: newUser._id,
+    //   role: newUser.role,
+    // });
+
+    const newToken = this.jwtService.sign({
       email: newUser.email,
-      sub: newUser._id,
+      userId: newUser._id,
       role: newUser.role,
     });
 
     return {
       user: newUser.toJSON(),
-      token: fbToken,
+      token: newToken,
     };
   }
 
@@ -130,7 +136,7 @@ export class AuthService {
 
     const new_token = this.jwtService.sign({
       email: user.email,
-      sub: user._id,
+      userId: user._id,
       role: user.role,
     });
 
@@ -138,5 +144,21 @@ export class AuthService {
       user,
       token: new_token,
     };
+  }
+
+  async getAuths(): Promise<AuthDocument[]> {
+    const auths = this.authModel.find();
+
+    return auths;
+  }
+
+  async removeAuth(id: string): Promise<AuthDocument> {
+    const auth = await this.authModel.findByIdAndDelete(id);
+
+    if (!auth) {
+      throw new NotFoundException();
+    }
+
+    return auth;
   }
 }
