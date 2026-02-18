@@ -85,7 +85,7 @@ export class MediaController {
         callback(null, true);
       },
       limits: {
-        fileSize: 1024 * 1024 * 5, // 5MB
+        fileSize: 1024 * 1024 * 5,
       },
     }),
   )
@@ -122,9 +122,45 @@ export class MediaController {
       },
     },
   })
+  @UseInterceptors(
+    FilesInterceptor('files', 10, {
+      storage: diskStorage({
+        destination: (req, file, cb) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          const author = req.body.author as string;
+          const uploadPath = `./videos/${author}`;
+
+          if (!existsSync(uploadPath)) {
+            mkdirSync(uploadPath, { recursive: true });
+          }
+
+          cb(null, uploadPath);
+        },
+        filename: (req, file, callback) => {
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const ext = extname(file.originalname);
+          callback(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
+        },
+      }),
+      fileFilter: (req, file, callback) => {
+        if (!file.originalname.match(/\.(mp4)$/)) {
+          return callback(new Error('Only image files are allowed!'), false);
+        }
+        callback(null, true);
+      },
+      limits: {
+        fileSize: 1024 * 1024 * 20,
+      },
+    }),
+  )
   @HttpCode(HttpStatus.CREATED)
-  async createVideoMedia(@UploadedFiles() files: Express.Multer.File[]) {
-    return this.mediaService.createVideoMedia(files);
+  async createVideoMedia(
+    @UploadedFiles() files: Express.Multer.File[],
+    @Body() body: { author: string },
+  ) {
+    const author = body.author;
+    return this.mediaService.createVideoMedia(files, author);
   }
 
   @ApiOkResponse({

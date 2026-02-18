@@ -38,6 +38,13 @@ async function bootstrap() {
     }),
   );
 
+  app.use(
+    '/videos',
+    express.static(join(process.cwd(), 'videos'), {
+      index: false,
+    }),
+  );
+
   await app.listen(process.env.PORT ?? 3000);
 }
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
