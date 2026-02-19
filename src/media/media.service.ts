@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Media, MediaDocument } from './media.schema';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable()
 export class MediaService {
@@ -50,6 +52,22 @@ export class MediaService {
   }
 
   async delete(id: string): Promise<MediaDocument> {
+    const media = await this.mediaModel.findOne({ _id: id });
+
+    if (!media) {
+      throw new NotFoundException('Медиа не существует');
+    }
+    const urlPath = media.url.replace('http://localhost:3000', '');
+
+    const filePath = path.join(process.cwd(), urlPath);
+
+    try {
+      fs.unlinkSync(filePath);
+    } catch (error) {
+      console.log('error', error);
+      throw new NotFoundException('Файл не найден');
+    }
+
     const deleteMedia = await this.mediaModel
       .findOneAndDelete({ _id: id })
       .exec();
