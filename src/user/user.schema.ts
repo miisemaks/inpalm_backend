@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 import { UserRole } from 'src/types/user-role';
 
 export type UserDocument = User & Document;
@@ -81,6 +81,20 @@ export class User {
     default: UserRole.customer,
   })
   role: UserRole;
+
+  @ApiProperty({
+    description: 'Аватар пользователя',
+    required: false,
+    nullable: true,
+    default: null,
+  })
+  @Prop({
+    required: false,
+    type: MongooseSchema.Types.ObjectId,
+    ref: 'Media',
+    default: null,
+  })
+  avatar: MongooseSchema.Types.ObjectId | null;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -11,6 +11,8 @@ import { User, UserSchema } from './user.schema';
 import { AuthMiddleware } from 'src/auth/auth.middleware';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { Media, MediaSchema } from 'src/media/media.schema';
+import { MediaService } from 'src/media/media.service';
 
 @Module({
   imports: [
@@ -24,10 +26,13 @@ import { JwtModule } from '@nestjs/jwt';
       }),
       inject: [ConfigService],
     }),
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: Media.name, schema: MediaSchema },
+    ]),
   ],
   controllers: [UserController],
-  providers: [UserService, AuthMiddleware],
+  providers: [UserService, AuthMiddleware, MediaService],
   exports: [UserService],
 })
 export class UsersModule implements NestModule {
@@ -44,6 +49,18 @@ export class UsersModule implements NestModule {
       {
         path: 'users/me',
         method: RequestMethod.PUT,
+      },
+      {
+        path: 'users/me',
+        method: RequestMethod.GET,
+      },
+      {
+        path: 'users/me/avatar',
+        method: RequestMethod.PUT,
+      },
+      {
+        path: 'users/me/avatar',
+        method: RequestMethod.DELETE,
       },
     );
   }

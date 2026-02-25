@@ -3,10 +3,16 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UpdateMe, CreateUser, UpdateUser } from './dto';
 import { User, UserDocument } from './user.schema';
+import { Media, MediaDocument } from '../media/media.schema';
+import { MediaService } from 'src/media/media.service';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(Media.name) private mediaModel: Model<MediaDocument>,
+    private mediaService: MediaService,
+  ) {}
 
   async create(user: CreateUser): Promise<UserDocument> {
     const createdUser = new this.userModel(user);
@@ -20,6 +26,7 @@ export class UserService {
 
   async findOne(id: string): Promise<User> {
     const user = await this.userModel.findById(id).exec();
+
     if (!user) {
       throw new NotFoundException(`Пользователь с таким ID ${id} не найден`);
     }
@@ -48,8 +55,6 @@ export class UserService {
       data,
     );
 
-    console.log('data', data);
-
     if (!existingUser) {
       throw new NotFoundException('Пользователь не найден');
     }
@@ -71,5 +76,42 @@ export class UserService {
 
   async count(): Promise<number> {
     return this.userModel.countDocuments().exec();
+  }
+
+  async updateAvatar(user_id: string, media_id: string): Promise<User> {
+    // const media = await this.mediaService.getOne(media_id);
+    const media = await this.mediaModel.findOne({
+      _id: media_id,
+      type: 'image',
+    });
+
+    if (!media) {
+      throw new NotFoundException('Ссылка на фото не найдена');
+    }
+
+    const user = await this.userModel
+      .findByIdAndUpdate(user_id, {
+        avatar: media._id,
+      })
+      .exec();
+
+    if (!user) {
+      throw new NotFoundException('Пользователь не найден');
+    }
+
+    return user;
+  }
+
+  async deleteAvatar(user_id: string): Promise<User> {
+    const user = await this.userModel
+      .findByIdAndUpdate(user_id, {
+        avatar: null,
+      })
+      .exec();
+
+    if (!user) {
+      throw new NotFoundException('Пользователь не найден');
+    }
+    return user;
   }
 }

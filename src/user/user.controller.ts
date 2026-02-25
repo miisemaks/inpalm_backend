@@ -11,7 +11,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUser, UpdateUser, UpdateMe } from './dto';
+import { CreateUser, UpdateUser, UpdateMe, UpdateMeAvatar } from './dto';
 import {
   ApiCreatedResponse,
   ApiOkResponse,
@@ -93,7 +93,55 @@ export class UserController {
       userId: string;
       role: UserRole;
     }>(token!);
-    console.log('decoded', decoded);
+
     return this.usersService.updateMe(decoded.userId, updateUserDto);
+  }
+
+  @ApiOkResponse({
+    description: 'Успешный ответ',
+    type: User,
+  })
+  @Put('me/avatar')
+  async updateMeAvatar(@Body() data: UpdateMeAvatar, @Req() req: Request) {
+    const token = req.headers.authorization?.split(' ')[1];
+    const decoded = this.jwtService.decode<{
+      email: string;
+      userId: string;
+      role: UserRole;
+    }>(token!);
+
+    return this.usersService.updateAvatar(decoded.userId, data.id);
+  }
+
+  @ApiOkResponse({
+    description: 'Успшеный ответ',
+    type: User,
+  })
+  @Delete('me/avatar')
+  async deleteUserAvatar(@Req() req: Request) {
+    const token = req.headers.authorization?.split(' ')[1];
+    const decoded = this.jwtService.decode<{
+      email: string;
+      userId: string;
+      role: UserRole;
+    }>(token!);
+
+    return this.usersService.deleteAvatar(decoded.userId);
+  }
+
+  @ApiOkResponse({
+    description: 'Успешный ответ',
+    type: User,
+  })
+  @Get('me')
+  async getMe(@Req() req: Request) {
+    const token = req.headers.authorization?.split(' ')[1];
+    const decoded = this.jwtService.decode<{
+      email: string;
+      userId: string;
+      role: UserRole;
+    }>(token!);
+
+    return this.usersService.findOne(decoded.userId);
   }
 }

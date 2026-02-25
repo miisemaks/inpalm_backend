@@ -84,4 +84,14 @@ export class MediaService {
 
     return medias;
   }
+
+  async getOne(id: string): Promise<MediaDocument> {
+    const media = await this.mediaModel.findById(id);
+
+    if (!media) {
+      throw new NotFoundException('Медиа не найдена');
+    }
+
+    return media;
+  }
 }
