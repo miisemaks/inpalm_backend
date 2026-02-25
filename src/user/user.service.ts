@@ -4,14 +4,12 @@ import { Model } from 'mongoose';
 import { UpdateMe, CreateUser, UpdateUser } from './dto';
 import { User, UserDocument } from './user.schema';
 import { Media, MediaDocument } from '../media/media.schema';
-import { MediaService } from 'src/media/media.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     @InjectModel(Media.name) private mediaModel: Model<MediaDocument>,
-    private mediaService: MediaService,
   ) {}
 
   async create(user: CreateUser): Promise<UserDocument> {
@@ -79,7 +77,6 @@ export class UserService {
   }
 
   async updateAvatar(user_id: string, media_id: string): Promise<User> {
-    // const media = await this.mediaService.getOne(media_id);
     const media = await this.mediaModel.findOne({
       _id: media_id,
       type: 'image',
