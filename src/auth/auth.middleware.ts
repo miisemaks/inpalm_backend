@@ -7,8 +7,8 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Request, Response, NextFunction } from 'express';
 import { Model } from 'mongoose';
-import { User, UserDocument } from 'src/user/user.schema';
-import { UserRole } from 'src/types/user-role';
+import { UserRole } from '../types/user-role.js';
+import { User, UserDocument } from '../user/user.entity.js';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {

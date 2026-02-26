@@ -1,20 +1,20 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { UserService } from '../user/user.service';
-import { User, UserDocument } from 'src/user/user.schema';
+import { UserService } from '../user/user.service.js';
+import { User, IUser } from '../user/user.entity.js';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
-import { Auth, AuthDocument } from 'src/auth/auth.schema';
+import { Auth, AuthDocument } from '../auth/auth.schema.js';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcryptjs';
-import { UserRole } from 'src/types/user-role';
-import { AuthRegister } from 'src/auth/dto/auth-register';
-import { FirebaseService } from 'src/firebase/firebase.service';
+import { UserRole } from '../types/user-role.js';
+import { AuthRegister } from '../auth/dto/auth-register.js';
+import { FirebaseService } from '../firebase/firebase.service.js';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(Auth.name) private authModel: Model<AuthDocument>,
-    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(User.name) private userModel: Model<IUser>,
     private usersService: UserService,
     private jwtService: JwtService,
     private firebaseService: FirebaseService,
@@ -27,7 +27,7 @@ export class AuthService {
     email: string;
     password: string;
   }): Promise<{
-    user: User;
+    user: IUser;
     token: string;
   }> {
     const user = await this.usersService.findByEmail(email);
@@ -64,7 +64,7 @@ export class AuthService {
     };
   }
 
-  async register(data: AuthRegister): Promise<{ user: User; token: string }> {
+  async register(data: AuthRegister): Promise<{ user: IUser; token: string }> {
     const auth = this.firebaseService.getAuth();
 
     const user = await this.usersService.findByEmail(data.email);
@@ -118,7 +118,7 @@ export class AuthService {
     };
   }
 
-  async login(token: string): Promise<{ user: User; token: string }> {
+  async login(token: string): Promise<{ user: IUser; token: string }> {
     const auth = this.firebaseService.getAuth();
 
     const response = await auth.verifyIdToken(token);

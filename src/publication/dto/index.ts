@@ -1,2 +1,2 @@
-export * from './create-publication.dto';
-export * from './update-publication.dto';
+export * from './create-publication.dto.js';
+export * from './update-publication.dto.js';

@@ -5,14 +5,14 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { MediaService } from './media.service';
-import { Media, MediaSchema } from './media.schema';
-import { MediaController } from './media.controller';
-import { AuthMiddleware } from 'src/auth/auth.middleware';
-import { UsersModule } from 'src/user/user.module';
+import { MediaService } from './media.service.js';
+import { Media, MediaSchema } from './media.schema.js';
+import { MediaController } from './media.controller.js';
+import { AuthMiddleware } from '../auth/auth.middleware.js';
+import { UsersModule } from '../user/user.module.js';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { User, UserSchema } from 'src/user/user.schema';
+import { User, UserSchema } from '../user/user.entity.js';
 
 @Module({
   imports: [

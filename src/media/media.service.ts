@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Media, MediaDocument } from './media.schema';
+import { Media, MediaDocument } from './media.schema.js';
 import * as fs from 'fs';
 import * as path from 'path';
 

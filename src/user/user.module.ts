@@ -5,15 +5,14 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserService } from './user.service';
-import { UserController } from './user.controller';
-import { User, UserSchema } from './user.schema';
-import { AuthMiddleware } from 'src/auth/auth.middleware';
+import { UserService } from './user.service.js';
+import { UserController } from './user.controller.js';
+import { AuthMiddleware } from '../auth/auth.middleware.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { Media, MediaSchema } from 'src/media/media.schema';
-import { MediaService } from 'src/media/media.service';
-
+import { Media, MediaSchema } from '../media/media.schema.js';
+import { MediaService } from '../media/media.service.js';
+import { User, UserSchema } from './user.entity.js';
 @Module({
   imports: [
     JwtModule.registerAsync({
@@ -27,8 +26,8 @@ import { MediaService } from 'src/media/media.service';
       inject: [ConfigService],
     }),
     MongooseModule.forFeature([
-      { name: User.name, schema: UserSchema },
-      { name: Media.name, schema: MediaSchema },
+      { name: User.name, schema: UserSchema, collection: 'users' },
+      { name: Media.name, schema: MediaSchema, collection: 'media' },
     ]),
   ],
   controllers: [UserController],

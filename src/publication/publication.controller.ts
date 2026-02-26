@@ -11,15 +11,15 @@ import {
   Req,
 } from '@nestjs/common';
 import type { Request } from 'express';
-import { PublicationService } from './publication.service';
-import { CreatePublicationDto, UpdatePublicationDto } from './dto';
+import { PublicationService } from './publication.service.js';
+import { CreatePublicationDto, UpdatePublicationDto } from './dto/index.js';
 import {
   ApiCreatedResponse,
   ApiOkResponse,
   getSchemaPath,
 } from '@nestjs/swagger';
-import { Publication } from './publication.schema';
-import { UserRole } from 'src/types/user-role';
+import { Publication } from './publication.schema.js';
+import { UserRole } from 'src/types/user-role.js';
 import { JwtService } from '@nestjs/jwt';
 
 @Controller('publications')

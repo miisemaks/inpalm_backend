@@ -10,7 +10,7 @@ import {
   UploadedFiles,
   Body,
 } from '@nestjs/common';
-import { MediaService } from './media.service';
+import { MediaService } from './media.service.js';
 import {
   ApiBody,
   ApiConsumes,
@@ -18,12 +18,12 @@ import {
   ApiOkResponse,
   getSchemaPath,
 } from '@nestjs/swagger';
-import { Media } from './media.schema';
+import { Media } from './media.schema.js';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { existsSync, mkdirSync } from 'fs';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user/user.service.js';
 import { JwtService } from '@nestjs/jwt';
 
 @Controller('media')

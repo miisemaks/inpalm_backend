@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { PublicationService } from './publication.service';
-import { Publication, PublicationSchema } from './publication.schema';
-import { PublicationController } from './publication.controller';
+import { PublicationService } from './publication.service.js';
+import { Publication, PublicationSchema } from './publication.schema.js';
+import { PublicationController } from './publication.controller.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 

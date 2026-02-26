@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { Document } from 'mongoose';
-import { MediaType } from './type/media-type';
+import { MediaType } from './type/media-type.js';
 
 export type MediaDocument = Media & Document;
 

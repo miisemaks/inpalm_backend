@@ -1,11 +1,14 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import * as admin from 'firebase-admin';
-import * as serviceAccount from '../../firebase-service-account.json';
+import admin from 'firebase-admin';
+import * as firebaseServiceAccount from '../../firebase-service-account.json' with { type: 'json' };
 
 @Injectable()
 export class FirebaseService implements OnModuleInit {
   onModuleInit() {
-    const privateKey = serviceAccount.private_key.replace(/\\n/g, '\n');
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const firebaseService = firebaseServiceAccount.default;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+    const privateKey = firebaseService.private_key.replace(/\\n/g, '\n');
 
     if (!privateKey) {
       throw new Error(
@@ -15,11 +18,15 @@ export class FirebaseService implements OnModuleInit {
 
     admin.initializeApp({
       credential: admin.credential.cert({
-        projectId: serviceAccount.project_id,
-        clientEmail: serviceAccount.client_email,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        projectId: firebaseService.project_id,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        clientEmail: firebaseService.client_email,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         privateKey: privateKey,
       }),
-      storageBucket: `${serviceAccount.project_id}.appspot.com`,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      storageBucket: `${firebaseService.project_id}.appspot.com`,
     });
   }
 

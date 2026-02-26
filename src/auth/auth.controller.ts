@@ -8,9 +8,9 @@ import {
   Delete,
   Param,
 } from '@nestjs/common';
-import { AuthService } from 'src/auth/auth.service';
-import { AuthLogin, AuthLoginTest } from 'src/auth/dto/auth-login';
-import { AuthRegister } from 'src/auth/dto/auth-register';
+import { AuthService } from '../auth/auth.service.js';
+import { AuthLogin, AuthLoginTest } from '../auth/dto/auth-login.js';
+import { AuthRegister } from '../auth/dto/auth-register.js';
 
 @Controller('auth')
 export class AuthController {

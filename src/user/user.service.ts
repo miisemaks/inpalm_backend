@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { UpdateMe, CreateUser, UpdateUser } from './dto';
-import { User, UserDocument } from './user.schema';
-import { Media, MediaDocument } from '../media/media.schema';
+import { UpdateMe, CreateUser, UpdateUser } from './dto/index.js';
+import { Media, MediaDocument } from '../media/media.schema.js';
+import { User, IUser, UserDocument } from './user.entity.js';
 
 @Injectable()
 export class UserService {
@@ -12,17 +12,17 @@ export class UserService {
     @InjectModel(Media.name) private mediaModel: Model<MediaDocument>,
   ) {}
 
-  async create(user: CreateUser): Promise<UserDocument> {
+  async create(user: CreateUser): Promise<IUser> {
     const createdUser = new this.userModel(user);
 
     return createdUser.save();
   }
 
-  async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
+  async findAll(): Promise<IUser[]> {
+    return await this.userModel.find().exec();
   }
 
-  async findOne(id: string): Promise<User> {
+  async findOne(id: string): Promise<IUser> {
     const user = await this.userModel.findById(id).exec();
 
     if (!user) {
@@ -31,11 +31,11 @@ export class UserService {
     return user;
   }
 
-  async findByEmail(email: string): Promise<UserDocument | null> {
+  async findByEmail(email: string): Promise<IUser | null> {
     return this.userModel.findOne({ email });
   }
 
-  async update(id: string, updateUserDto: UpdateUser): Promise<User> {
+  async update(id: string, updateUserDto: UpdateUser): Promise<IUser> {
     const existingUser = await this.userModel
       .findByIdAndUpdate(id, updateUserDto, { new: true })
       .exec();
@@ -47,7 +47,7 @@ export class UserService {
     return existingUser;
   }
 
-  async updateMe(id: string, data: UpdateMe): Promise<UserDocument> {
+  async updateMe(id: string, data: UpdateMe): Promise<IUser> {
     const existingUser = await this.userModel.findOneAndUpdate(
       { _id: id },
       data,
@@ -62,7 +62,7 @@ export class UserService {
     return existingUser;
   }
 
-  async remove(id: string): Promise<User> {
+  async remove(id: string): Promise<IUser> {
     const deletedUser = await this.userModel.findByIdAndDelete(id).exec();
 
     if (!deletedUser) {
@@ -76,7 +76,7 @@ export class UserService {
     return this.userModel.countDocuments().exec();
   }
 
-  async updateAvatar(user_id: string, media_id: string): Promise<User> {
+  async updateAvatar(user_id: string, media_id: string): Promise<IUser> {
     const media = await this.mediaModel.findOne({
       _id: media_id,
       type: 'image',
@@ -99,7 +99,7 @@ export class UserService {
     return user;
   }
 
-  async deleteAvatar(user_id: string): Promise<User> {
+  async deleteAvatar(user_id: string): Promise<IUser> {
     const user = await this.userModel
       .findByIdAndUpdate(user_id, {
         avatar: null,

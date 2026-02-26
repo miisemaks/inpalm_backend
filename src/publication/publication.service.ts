@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Publication, PublicationDocument } from './publication.schema';
-import { CreatePublicationDto, UpdatePublicationDto } from './dto';
+import { Publication, PublicationDocument } from './publication.schema.js';
+import { CreatePublicationDto, UpdatePublicationDto } from './dto/index.js';
 
 @Injectable()
 export class PublicationService {

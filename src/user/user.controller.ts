@@ -10,17 +10,23 @@ import {
   HttpStatus,
   Req,
 } from '@nestjs/common';
-import { UserService } from './user.service';
-import { CreateUser, UpdateUser, UpdateMe, UpdateMeAvatar } from './dto';
+import { UserService } from './user.service.js';
+import {
+  CreateUser,
+  UpdateUser,
+  UpdateMe,
+  UpdateMeAvatar,
+} from './dto/index.js';
 import {
   ApiCreatedResponse,
   ApiOkResponse,
+  ApiOperation,
   getSchemaPath,
 } from '@nestjs/swagger';
-import { User } from 'src/user/user.schema';
+import { User } from '../user/user.entity.js';
 import type { Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
-import { UserRole } from 'src/types/user-role';
+import { UserRole } from '../types/user-role.js';
 
 @Controller('users')
 export class UserController {
@@ -39,17 +45,17 @@ export class UserController {
     return this.usersService.create(createUser);
   }
 
+  @ApiOperation({
+    summary: 'Получение списка пользователей',
+    description: 'Возвращает список пользователей',
+  })
   @ApiOkResponse({
     description: 'Успешный ответ',
     schema: {
       allOf: [
         {
-          properties: {
-            results: {
-              type: 'array',
-              items: { $ref: getSchemaPath(User) },
-            },
-          },
+          type: 'array',
+          items: { $ref: getSchemaPath(User) },
         },
       ],
     },
