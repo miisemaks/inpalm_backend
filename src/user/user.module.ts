@@ -12,7 +12,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { Media, MediaSchema } from '../media/media.schema.js';
 import { MediaService } from '../media/media.service.js';
-import { User, UserSchema } from './user.entity.js';
+import { User, UserSchema } from './user.schema.js';
 @Module({
   imports: [
     JwtModule.registerAsync({

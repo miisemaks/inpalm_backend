@@ -23,7 +23,7 @@ import {
   ApiOkResponse,
   ApiOperation,
 } from '@nestjs/swagger';
-import { User } from '../user/user.entity.js';
+import { User } from './user.schema.js';
 import type { Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
 import { UserRole } from '../types/user-role.js';

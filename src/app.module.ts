@@ -8,7 +8,7 @@ import { FirebaseModule } from './firebase/firebase.module.js';
 import { PublicationModule } from './publication/publication.module.js';
 import { MediaModule } from './media/media.module.js';
 import { MulterModule } from '@nestjs/platform-express';
-import { User } from './user/user.entity.js';
+import { User } from './user/user.schema.js';
 import * as AdminJSMongoose from '@adminjs/mongoose';
 import AdminJS from 'adminjs';
 import { dark, light } from '@adminjs/themes';

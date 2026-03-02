@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserService } from '../user/user.service.js';
-import { User, IUser } from '../user/user.entity.js';
+import { User, IUser } from '../user/user.schema.js';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Auth, AuthDocument } from '../auth/auth.schema.js';

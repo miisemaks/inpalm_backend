@@ -12,7 +12,7 @@ import { AuthMiddleware } from '../auth/auth.middleware.js';
 import { UsersModule } from '../user/user.module.js';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { User, UserSchema } from '../user/user.entity.js';
+import { User, UserSchema } from '../user/user.schema.js';
 
 @Module({
   imports: [

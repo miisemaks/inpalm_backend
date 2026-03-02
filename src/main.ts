@@ -8,7 +8,7 @@ import AdminJS from 'adminjs';
 import * as AdminJSMongoose from '@adminjs/mongoose';
 import * as AdminJSExpress from '@adminjs/express';
 import mongoose from 'mongoose';
-import { User } from './user/user.entity.js';
+import { User } from './user/user.schema.js';
 
 AdminJS.registerAdapter({
   Resource: AdminJSMongoose.Resource,
