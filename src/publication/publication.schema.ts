@@ -1,67 +1,50 @@
-import { Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ApiProperty } from '@nestjs/swagger';
-import { Document } from 'mongoose';
+import { Schema, HydratedDocument, model } from 'mongoose';
+import { PublicationStatus } from '../types/publication-status.js';
 
-export type PublicationDocument = Publication & Document;
-
-@Schema({})
-export class Publication {
-  @ApiProperty({
-    required: true,
-    description: 'Идентификатор публикации',
-    type: 'string',
-    example: '6982fccfc36f4c3d5cda354d',
-  })
-  id: string;
-
-  @ApiProperty({
-    required: true,
-    description: 'Заголовок публикации',
-    type: 'string',
-    example: 'Title',
-  })
+export interface IPublication {
+  _id: string;
   title: string;
-
-  @ApiProperty({
-    description: 'Содержание',
-  })
   content: string;
-
-  @ApiProperty({
-    description: 'ID автора публикации',
-  })
   authorId: string;
-
-  @ApiProperty({
-    description: 'Статус публикации',
-    enum: ['draft', 'published', 'archived', 'removed'],
-  })
-  status: 'draft' | 'published' | 'archived' | 'removed';
-
-  @ApiProperty({
-    description: 'Количество просмотров',
-  })
+  status: PublicationStatus;
   views: number;
-
-  @ApiProperty({
-    description: 'Количество лайков',
-  })
   likes: number;
-
-  @ApiProperty({
-    description: 'Дата создания',
-  })
   createdAt: string;
-
-  @ApiProperty({
-    description: 'Дата обновления',
-  })
   updatedAt: string;
-
-  @ApiProperty({
-    description: 'Дата публикации',
-  })
   publishedAt: string;
 }
 
-export const PublicationSchema = SchemaFactory.createForClass(Publication);
+export type PublicationDocument = HydratedDocument<IPublication>;
+
+export const PublicationSchema = new Schema<IPublication>(
+  {
+    title: { type: 'String', required: true },
+    content: { type: 'String', required: false },
+    authorId: { type: 'String', required: true },
+    status: {
+      type: 'String',
+      enum: PublicationStatus,
+      required: false,
+      default: PublicationStatus.draft,
+    },
+    views: {
+      type: 'Number',
+      default: 0,
+      required: false,
+    },
+    likes: {
+      type: 'Number',
+      default: 0,
+      required: false,
+    },
+  },
+  {
+    timestamps: true,
+    collection: 'publications',
+  },
+);
+
+export const Publication = model<IPublication>(
+  'Publication',
+  PublicationSchema,
+);

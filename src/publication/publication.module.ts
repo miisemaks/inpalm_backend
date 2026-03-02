@@ -19,7 +19,11 @@ import { JwtModule } from '@nestjs/jwt';
       inject: [ConfigService],
     }),
     MongooseModule.forFeature([
-      { name: Publication.name, schema: PublicationSchema },
+      {
+        name: Publication.name,
+        schema: PublicationSchema,
+        collection: 'publications',
+      },
     ]),
   ],
   controllers: [PublicationController],

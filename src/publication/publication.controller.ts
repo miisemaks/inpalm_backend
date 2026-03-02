@@ -12,13 +12,12 @@ import {
 } from '@nestjs/common';
 import type { Request } from 'express';
 import { PublicationService } from './publication.service.js';
-import { CreatePublicationDto, UpdatePublicationDto } from './dto/index.js';
 import {
-  ApiCreatedResponse,
-  ApiOkResponse,
-  getSchemaPath,
-} from '@nestjs/swagger';
-import { Publication } from './publication.schema.js';
+  CreatePublicationDto,
+  UpdatePublicationDto,
+  PublicationDto,
+} from './dto/index.js';
+import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { UserRole } from 'src/types/user-role.js';
 import { JwtService } from '@nestjs/jwt';
 
@@ -31,7 +30,7 @@ export class PublicationController {
 
   @ApiCreatedResponse({
     description: 'Пользователь успешно добавлен',
-    type: Publication,
+    type: PublicationDto,
   })
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -40,14 +39,7 @@ export class PublicationController {
   }
 
   @ApiOkResponse({
-    schema: {
-      allOf: [
-        {
-          type: 'array',
-          items: { $ref: getSchemaPath(Publication) },
-        },
-      ],
-    },
+    type: [PublicationDto],
   })
   @Get()
   async getPublications() {
@@ -56,7 +48,7 @@ export class PublicationController {
 
   @ApiOkResponse({
     description: 'Успешный ответ',
-    type: Publication,
+    type: PublicationDto,
   })
   @Get(':id')
   async getPublication(@Param('id') id: string) {
@@ -65,16 +57,16 @@ export class PublicationController {
 
   @ApiOkResponse({
     description: 'Успешный ответ',
-    type: Publication,
+    type: PublicationDto,
   })
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return this.publicationService.remove(id);
+    return await this.publicationService.remove(id);
   }
 
   @ApiOkResponse({
     description: 'Успешный ответ',
-    type: Publication,
+    type: PublicationDto,
   })
   @Put(':id')
   async update(@Body() data: UpdatePublicationDto, @Param('id') id: string) {
@@ -82,14 +74,7 @@ export class PublicationController {
   }
 
   @ApiOkResponse({
-    schema: {
-      allOf: [
-        {
-          type: 'array',
-          items: { $ref: getSchemaPath(Publication) },
-        },
-      ],
-    },
+    type: PublicationDto,
   })
   @Get('active')
   async getActiveUserPublications(@Req() req: Request) {
@@ -104,14 +89,7 @@ export class PublicationController {
   }
 
   @ApiOkResponse({
-    schema: {
-      allOf: [
-        {
-          type: 'array',
-          items: { $ref: getSchemaPath(Publication) },
-        },
-      ],
-    },
+    type: PublicationDto,
   })
   @Get('inactive')
   async getInactiveUserPublications(@Req() req: Request) {

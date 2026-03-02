@@ -2,7 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Publication, PublicationDocument } from './publication.schema.js';
-import { CreatePublicationDto, UpdatePublicationDto } from './dto/index.js';
+import {
+  CreatePublicationDto,
+  PublicationDto,
+  UpdatePublicationDto,
+} from './dto/index.js';
 
 @Injectable()
 export class PublicationService {
@@ -46,7 +50,7 @@ export class PublicationService {
     return publication;
   }
 
-  async remove(id: string): Promise<Publication> {
+  async remove(id: string): Promise<PublicationDto> {
     const publication = await this.publicationModel
       .findByIdAndDelete(id)
       .exec();
