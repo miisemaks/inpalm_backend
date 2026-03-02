@@ -16,12 +16,12 @@ import {
   UpdateUser,
   UpdateMe,
   UpdateMeAvatar,
+  UserDto,
 } from './dto/index.js';
 import {
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
-  getSchemaPath,
 } from '@nestjs/swagger';
 import { User } from '../user/user.entity.js';
 import type { Request } from 'express';
@@ -37,7 +37,7 @@ export class UserController {
 
   @ApiCreatedResponse({
     description: 'Пользователь успешно добавлен',
-    type: User,
+    type: UserDto,
   })
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -51,14 +51,7 @@ export class UserController {
   })
   @ApiOkResponse({
     description: 'Успешный ответ',
-    schema: {
-      allOf: [
-        {
-          type: 'array',
-          items: { $ref: getSchemaPath(User) },
-        },
-      ],
-    },
+    type: [UserDto],
   })
   @Get()
   async findAll() {
@@ -71,16 +64,33 @@ export class UserController {
     return { count };
   }
 
+  @ApiOperation({
+    summary: 'Получение данных пользователя',
+    description: 'Возвращает данные пользователя',
+  })
+  @ApiOkResponse({
+    type: UserDto,
+  })
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }
 
+  @ApiOperation({
+    summary: 'Обновление данных пользователя',
+    description: 'Обновляет и возвращает обновленные данные пользователя',
+  })
+  @ApiOkResponse({
+    type: UserDto,
+  })
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUser) {
     return this.usersService.update(id, updateUserDto);
   }
 
+  @ApiOkResponse({
+    type: UserDto,
+  })
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(@Param('id') id: string) {
@@ -89,7 +99,7 @@ export class UserController {
 
   @ApiOkResponse({
     description: 'Успешный ответ',
-    type: User,
+    type: UserDto,
   })
   @Put('me')
   async updateMe(@Body() updateUserDto: UpdateMe, @Req() req: Request) {
@@ -105,7 +115,7 @@ export class UserController {
 
   @ApiOkResponse({
     description: 'Успешный ответ',
-    type: User,
+    type: UserDto,
   })
   @Put('me/avatar')
   async updateMeAvatar(@Body() data: UpdateMeAvatar, @Req() req: Request) {
@@ -137,7 +147,7 @@ export class UserController {
 
   @ApiOkResponse({
     description: 'Успешный ответ',
-    type: User,
+    type: UserDto,
   })
   @Get('me')
   async getMe(@Req() req: Request) {
