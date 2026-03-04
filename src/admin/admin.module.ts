@@ -9,6 +9,7 @@ import { AuthService } from '../auth/auth.service.js';
 import { dark, light } from '@adminjs/themes';
 import { User } from '../user/user.schema.js';
 import { Publication } from '../publication/publication.schema.js';
+import ru from './admin.locale.ru.json' with { type: 'json' };
 
 AdminJS.registerAdapter({ Database, Resource });
 
@@ -39,6 +40,103 @@ export default AdminModule.createAdminAsync({
         rootPath: '/admin',
         defaultTheme: dark.id,
         availableThemes: [dark, light],
+        locale: {
+          language: 'ru',
+          availableLanguages: ['ru', 'en'],
+          localeDetection: true,
+          translations: {
+            ru: ru,
+            // {
+            //   messages: {
+            //     welcomeOnBoard: 'Добро пожаловать в панель управления Inpalm',
+            //     noRecords: 'Нет записей для отображения',
+            //     noRecordsInResource:
+            //       'Нет записей для отображения в этом ресурсе',
+            //     componentNotFound_subtitle:
+            //       'Компонент не найден, пожалуйста, обратитесь в службу поддержки',
+            //     pageNotFound_subtitle:
+            //       'Страница не найдена, пожалуйста, обратитесь в службу поддержки',
+            //   },
+            //   actions: {
+            //     new: 'Создать',
+            //     edit: 'Редактировать',
+            //     show: 'Показать',
+            //     delete: 'Удалить',
+            //     bulkDelete: 'Удалить выбранные',
+            //     list: 'Список',
+            //   },
+            //   buttons: {
+            //     save: 'Сохранить',
+            //     addNewItem: 'Добавить новый элемент',
+            //     filter: 'Фильтр',
+            //     filterActive: 'Активные фильтры',
+            //     applyChanges: 'Применить',
+            //     resetFilter: 'Сбросить фильтр',
+            //     confirmRemovalMany:
+            //       'Вы уверены, что хотите удалить эти {{count}} записей?',
+            //     confirmRemovalMany_plural:
+            //       'Вы уверены, что хотите удалить эти {{count}} записи?',
+            //     confirmRemoval: 'Вы уверены, что хотите удалить эту запись?',
+            //     logout: 'Выйти',
+            //     login: 'Войти',
+            //     seeTheDocumentation: 'Посмотреть документацию',
+            //     createFirstRecord: 'Создать первую запись',
+            //     cancel: 'Отмена',
+            //     confirm: 'Подтвердить',
+            //     contactUs: 'Связаться с нами',
+            //   },
+            //   labels: {
+            //     navigation: 'Навигация',
+            //     pages: 'Страницы',
+            //     selectedRecords: 'Выбранные записи',
+            //     filters: 'Фильтры',
+            //     adminVersion: 'Версия AdminJS: {{version}}',
+            //     appVersion: 'Версия приложения: {{version}}',
+            //     dashboard: 'Панель управления',
+            //   },
+            //   properties: {
+            //     length: 'Длина',
+            //     from: 'От',
+            //     to: 'До',
+            //   },
+            //   components: {
+            //     DropZone: {
+            //       placeholder:
+            //         'Перетащите файлы сюда или нажмите, чтобы выбрать',
+            //       acceptedSize: 'Макс. размер файла: {{size}}',
+            //       acceptedType: 'Допустимые типы файлов: {{types}}',
+            //       insupportedSize: 'Недопустимый размер файла',
+            //       unsupportedType: 'Недопустимый тип файла',
+            //     },
+            //     Login: {
+            //       welcomeHeader: 'Добро пожаловать в панель управления Inpalm',
+            //       welcomeMessage: 'Пожалуйста, войдите, чтобы продолжить',
+            //       loginButton: 'Войти',
+            //       properties: {
+            //         email: 'Электронная почта',
+            //         password: 'Пароль',
+            //       },
+            //     },
+            //   },
+            //   resources: {
+            //     User: {
+            //       properties: {
+            //         email: 'Электронная почта',
+            //         firstName: 'Имя',
+            //         lastName: 'Фамилия',
+            //         role: 'Роль',
+            //         password: 'Пароль',
+            //         Id: 'ID',
+            //         birthdate: 'Дата рождения',
+            //         avatar: 'Аватар',
+            //         createdAt: 'Дата создания',
+            //         updatedAt: 'Дата обновления',
+            //       },
+            //     },
+            //   },
+            // },
+          },
+        },
         resources: [
           {
             resource: User,

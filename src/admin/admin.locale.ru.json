@@ -1,0 +1,133 @@
+{
+  "messages": {
+    "welcomeOnBoard": "Добро пожаловать в панель управления Inpalm",
+    "noRecords": "Нет записей для отображения",
+    "noRecordsInResource": "Нет записей для отображения в этом ресурсе",
+    "componentNotFound_subtitle": "Компонент не найден, пожалуйста, обратитесь в службу поддержки",
+    "pageNotFound_subtitle": "Страница не найдена, пожалуйста, обратитесь в службу поддержки",
+
+    "successfullyBulkDeleted": "Успешно удалено {{count}} запись",
+    "successfullyBulkDeleted_plural": "Успешно удалено {{count}} записей",
+    "successfullyDeleted": "Успешно удалена запись",
+    "successfullyUpdated": "Успешно обновлена запись",
+    "thereWereValidationErrors": "Есть ошибки валидации - проверьте их ниже",
+    "forbiddenError": "Вы не можете выполнить действие {{actionName}} на {{resourceId}}",
+    "anyForbiddenError": "Вы не можете выполнить данное действие",
+    "successfullyCreated": "Успешно создана новая запись",
+    "bulkDeleteError": "Произошла ошибка при удалении записей. Проверьте консоль для получения дополнительной информации",
+    "errorFetchingRecords": "Произошла ошибка при получении записей. Проверьте консоль для получения дополнительной информации",
+    "errorFetchingRecord": "Произошла ошибка при получении записи. Проверьте консоль для получения дополнительной информации",
+    "noRecordsSelected": "Вы не выбрали ни одной записи",
+    "theseRecordsWillBeRemoved": "Следующая запись будет удалена",
+    "theseRecordsWillBeRemoved_plural": "Следующие записи будут удалены",
+    "pickSomeFirstToRemove": "Чтобы удалить записи, сначала выберите их",
+    "error404Resource": "Ресурс с данным id: {{resourceId}} не найден",
+    "error404Action": "Ресурс с данным id: {{resourceId}} не имеет действия с именем: {{actionName}} или вы не авторизованы для его использования!",
+    "error404Record": "Ресурс с данным id: {{resourceId}} не имеет записи с id: {{recordId}} или вы не авторизованы для его использования!",
+    "seeConsoleForMore": "Смотрите консоль разработчика для получения более подробной информации...",
+    "noActionComponent": "Вы должны реализовать компонент действия для вашего действия",
+    "confirmDelete": "Вы действительно хотите удалить этот элемент?",
+    "welcomeOnBoard_title": "Добро пожаловать в панель управления Inpalm!",
+    "welcomeOnBoard_subtitle": "Теперь вы один из нас! Мы подготовили несколько советов для вас, чтобы начать:",
+    "addingResources_title": "Добавление ресурсов",
+    "addingResources_subtitle": "Узнайте, как добавить свои ресурсы в AdminJS",
+    "customizeResources_title": "Настройка ресурсов",
+    "customizeResources_subtitle": "Определите поведение, свойства и многое другое...",
+    "customizeActions_title": "Настройка действий",
+    "customizeActions_subtitle": "Узнайте, как создавать свои действия и изменять существующие",
+    "writeOwnComponents_title": "Написание компонентов",
+    "writeOwnComponents_subtitle": "Узнайте, как создавать свои компоненты и использовать их в AdminJS",
+    "customDashboard_title": "Пользовательская панель управления",
+    "customDashboard_subtitle": "Узнайте, как настроить домашнюю страницу AdminJS",
+    "roleBasedAccess_title": "Ролевой доступ",
+    "roleBasedAccess_subtitle": "Определите разрешения доступа для ваших пользователей AdminJS",
+    "community_title": "Присоединяйтесь к сообществу Discord",
+    "community_subtitle": "Задайте свои вопросы, поделитесь своими мыслями и общайтесь с другими пользователями AdminJS",
+    "foundBug_title": "Нашли ошибку? Нужны улучшения?",
+    "foundBug_subtitle": "Пожалуйста, сообщите нам о любых проблемах, с которыми вы столкнулись, или предложите улучшения. Мы всегда рады услышать от вас!",
+    "needMoreSolutions_title": "Нужны дополнительные решения для вашего проекта?",
+    "needMoreSolutions_subtitle": "Мы предлагаем широкий спектр услуг по разработке программного обеспечения, включая создание пользовательских панелей управления, интеграцию с различными базами данных и многое другое. Свяжитесь с нами, чтобы узнать больше о том, как мы можем помочь вашему проекту!",
+    "invalidCredentials": "Неверные учетные данные, пожалуйста, попробуйте снова",
+    "keyPlaceholder": "KEY",
+    "valuePlaceholder": "VALUE",
+    "initialKey": "Key-{{number}}",
+    "keyInUse": "Ключи объектов должны быть уникальными",
+    "keyValuePropertyDefaultDescription": "Все значения хранятся в виде текста. Ключи должны быть уникальными, дублирующиеся ключи не будут сохранены.",
+    "pageNotFound_title": "Страница не найдена",
+    "componentNotFound_title": "Компонент не найден"
+  },
+  "actions": {
+    "new": "Создать",
+    "edit": "Редактировать",
+    "show": "Показать",
+    "delete": "Удалить",
+    "bulkDelete": "Удалить выбранные",
+    "list": "Список"
+  },
+  "buttons": {
+    "save": "Сохранить",
+    "addNewItem": "Добавить новый элемент",
+    "filter": "Фильтр",
+    "filterActive": "Активные фильтры",
+    "applyChanges": "Применить",
+    "resetFilter": "Сбросить фильтр",
+    "confirmRemovalMany": "Вы уверены, что хотите удалить эти {{count}} записей?",
+    "confirmRemovalMany_plural": "Вы уверены, что хотите удалить эти {{count}} записи?",
+    "confirmRemoval": "Вы уверены, что хотите удалить эту запись?",
+    "logout": "Выйти",
+    "login": "Войти",
+    "seeTheDocumentation": "Посмотреть документацию",
+    "createFirstRecord": "Создать первую запись",
+    "cancel": "Отмена",
+    "confirm": "Подтвердить",
+    "contactUs": "Связаться с нами"
+  },
+  "labels": {
+    "navigation": "Навигация",
+    "pages": "Страницы",
+    "selectedRecords": "Выбранные записи",
+    "filters": "Фильтры",
+    "adminVersion": "Версия AdminJS: {{version}}",
+    "appVersion": "Версия приложения: {{version}}",
+    "dashboard": "Панель управления"
+  },
+  "properties": {
+    "length": "Длина",
+    "from": "От",
+    "to": "До"
+  },
+  "components": {
+    "DropZone": {
+      "placeholder": "Перетащите файлы сюда или нажмите, чтобы выбрать",
+      "acceptedSize": "Макс. размер файла: {{size}}",
+      "acceptedType": "Допустимые типы файлов: {{types}}",
+      "insupportedSize": "Недопустимый размер файла",
+      "unsupportedType": "Недопустимый тип файла"
+    },
+    "Login": {
+      "welcomeHeader": "Добро пожаловать в панель управления Inpalm",
+      "welcomeMessage": "Пожалуйста, войдите, чтобы продолжить",
+      "loginButton": "Войти",
+      "properties": {
+        "email": "Электронная почта",
+        "password": "Пароль"
+      }
+    }
+  },
+  "resources": {
+    "User": {
+      "properties": {
+        "email": "Электронная почта",
+        "firstName": "Имя",
+        "lastName": "Фамилия",
+        "role": "Роль",
+        "password": "Пароль",
+        "Id": "ID",
+        "birthdate": "Дата рождения",
+        "avatar": "Аватар",
+        "createdAt": "Дата создания",
+        "updatedAt": "Дата обновления"
+      }
+    }
+  }
+}
