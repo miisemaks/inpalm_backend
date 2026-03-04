@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UserService } from '../user/user.service.js';
 import { User, IUser } from '../user/user.schema.js';
 import { JwtService } from '@nestjs/jwt';
@@ -9,6 +13,7 @@ import * as bcrypt from 'bcryptjs';
 import { UserRole } from '../types/user-role.js';
 import { AuthRegister } from '../auth/dto/auth-register.js';
 import { FirebaseService } from '../firebase/firebase.service.js';
+import { UserDto } from 'src/user/dto/user.js';
 
 @Injectable()
 export class AuthService {
@@ -158,6 +163,48 @@ export class AuthService {
     if (!auth) {
       throw new NotFoundException();
     }
+
+    return auth;
+  }
+
+  async validateAdmin(
+    email: string,
+    password: string,
+  ): Promise<UserDto | null> {
+    const user = await this.userModel.findOne({ email }).exec();
+
+    if (!user) {
+      throw new NotFoundException('Пользователь не найден 1');
+    }
+
+    if (user.role === UserRole.customer) {
+      throw new ForbiddenException(
+        'У вас нет доступа для входа в админ панель, обратитесь к администратору за доступом',
+      );
+    }
+
+    const auth = await this.authModel.findOne({ userId: user._id }).exec();
+
+    if (!auth) {
+      throw new NotFoundException(
+        `Пользователь не найден 2 ${user._id} ${user.email}`,
+      );
+    }
+    const isPasswordValid = bcrypt.compareSync(password, auth.password);
+
+    if (!isPasswordValid) {
+      throw new NotFoundException('Пароль не совпадает');
+    }
+    return user;
+  }
+
+  async create(userId: string, password: string): Promise<AuthDocument> {
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
+    const auth = await new this.authModel({
+      userId: userId,
+      password: hash,
+    }).save();
 
     return auth;
   }

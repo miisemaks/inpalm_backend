@@ -8,22 +8,7 @@ import { FirebaseModule } from './firebase/firebase.module.js';
 import { PublicationModule } from './publication/publication.module.js';
 import { MediaModule } from './media/media.module.js';
 import { MulterModule } from '@nestjs/platform-express';
-import { User } from './user/user.schema.js';
-import * as AdminJSMongoose from '@adminjs/mongoose';
-import AdminJS from 'adminjs';
-import { dark, light } from '@adminjs/themes';
-
-const DEFAULT_ADMIN = {
-  email: 'admin@example.com',
-  password: 'password',
-};
-
-const authenticate = async (email: string, password: string) => {
-  if (email === DEFAULT_ADMIN.email && password === DEFAULT_ADMIN.password) {
-    return Promise.resolve(DEFAULT_ADMIN);
-  }
-  return null;
-};
+import AdminModule from './admin/admin.module.js';
 
 @Module({
   imports: [
@@ -59,53 +44,7 @@ const authenticate = async (email: string, password: string) => {
         dest: '../photos',
       }),
     }),
-    import('@adminjs/nestjs').then(({ AdminModule }) =>
-      AdminModule.createAdminAsync({
-        useFactory: () => {
-          const Database = AdminJSMongoose.Database;
-          const Resource = AdminJSMongoose.Resource;
-
-          AdminJS.registerAdapter({ Database, Resource });
-
-          return {
-            adminJsOptions: {
-              settings: {
-                defaultPerPage: 20,
-              },
-              branding: {
-                companyName: 'inpalm',
-              },
-              rootPath: '/admin',
-              defaultTheme: dark.id,
-              availableThemes: [dark, light],
-              resources: [
-                {
-                  resource: User,
-                  options: {
-                    navigation: {
-                      name: 'User',
-                      icon: 'User',
-                    },
-                    properties: {},
-                    listProperties: ['email', 'firstName', 'lastName', 'role'],
-                  },
-                },
-              ],
-            },
-            auth: {
-              authenticate,
-              cookieName: 'adminjs',
-              cookiePassword: 'secret',
-            },
-            sessionOptions: {
-              resave: true,
-              saveUninitialized: true,
-              secret: 'secret',
-            },
-          };
-        },
-      }),
-    ),
+    AdminModule,
   ],
 })
 export class AppModule {}

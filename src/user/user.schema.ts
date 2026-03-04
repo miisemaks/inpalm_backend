@@ -5,7 +5,7 @@ export type UserDocument = HydratedDocument<IUser>;
 
 export interface IUser {
   _id: string;
-  email: string | null;
+  email: string;
   firstName: string | null;
   lastName: string | null;
   birthdate: string | null;

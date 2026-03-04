@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 
 export type AuthDocument = Auth & Document;
 
@@ -7,8 +7,8 @@ export type AuthDocument = Auth & Document;
   timestamps: true,
 })
 export class Auth {
-  @Prop({ type: Types.ObjectId, ref: 'User', required: true, unique: true })
-  userId: Types.ObjectId;
+  @Prop({ type: String, required: true, unique: true })
+  userId: string;
 
   @Prop({
     required: true,

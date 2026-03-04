@@ -33,5 +33,6 @@ import { User, UserSchema } from '../user/user.schema.js';
   ],
   providers: [AuthService],
   controllers: [AuthController],
+  exports: [AuthService],
 })
 export class AuthModule {}
