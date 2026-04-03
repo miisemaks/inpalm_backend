@@ -46,95 +46,6 @@ export default AdminModule.createAdminAsync({
           localeDetection: true,
           translations: {
             ru: ru,
-            // {
-            //   messages: {
-            //     welcomeOnBoard: 'Добро пожаловать в панель управления Inpalm',
-            //     noRecords: 'Нет записей для отображения',
-            //     noRecordsInResource:
-            //       'Нет записей для отображения в этом ресурсе',
-            //     componentNotFound_subtitle:
-            //       'Компонент не найден, пожалуйста, обратитесь в службу поддержки',
-            //     pageNotFound_subtitle:
-            //       'Страница не найдена, пожалуйста, обратитесь в службу поддержки',
-            //   },
-            //   actions: {
-            //     new: 'Создать',
-            //     edit: 'Редактировать',
-            //     show: 'Показать',
-            //     delete: 'Удалить',
-            //     bulkDelete: 'Удалить выбранные',
-            //     list: 'Список',
-            //   },
-            //   buttons: {
-            //     save: 'Сохранить',
-            //     addNewItem: 'Добавить новый элемент',
-            //     filter: 'Фильтр',
-            //     filterActive: 'Активные фильтры',
-            //     applyChanges: 'Применить',
-            //     resetFilter: 'Сбросить фильтр',
-            //     confirmRemovalMany:
-            //       'Вы уверены, что хотите удалить эти {{count}} записей?',
-            //     confirmRemovalMany_plural:
-            //       'Вы уверены, что хотите удалить эти {{count}} записи?',
-            //     confirmRemoval: 'Вы уверены, что хотите удалить эту запись?',
-            //     logout: 'Выйти',
-            //     login: 'Войти',
-            //     seeTheDocumentation: 'Посмотреть документацию',
-            //     createFirstRecord: 'Создать первую запись',
-            //     cancel: 'Отмена',
-            //     confirm: 'Подтвердить',
-            //     contactUs: 'Связаться с нами',
-            //   },
-            //   labels: {
-            //     navigation: 'Навигация',
-            //     pages: 'Страницы',
-            //     selectedRecords: 'Выбранные записи',
-            //     filters: 'Фильтры',
-            //     adminVersion: 'Версия AdminJS: {{version}}',
-            //     appVersion: 'Версия приложения: {{version}}',
-            //     dashboard: 'Панель управления',
-            //   },
-            //   properties: {
-            //     length: 'Длина',
-            //     from: 'От',
-            //     to: 'До',
-            //   },
-            //   components: {
-            //     DropZone: {
-            //       placeholder:
-            //         'Перетащите файлы сюда или нажмите, чтобы выбрать',
-            //       acceptedSize: 'Макс. размер файла: {{size}}',
-            //       acceptedType: 'Допустимые типы файлов: {{types}}',
-            //       insupportedSize: 'Недопустимый размер файла',
-            //       unsupportedType: 'Недопустимый тип файла',
-            //     },
-            //     Login: {
-            //       welcomeHeader: 'Добро пожаловать в панель управления Inpalm',
-            //       welcomeMessage: 'Пожалуйста, войдите, чтобы продолжить',
-            //       loginButton: 'Войти',
-            //       properties: {
-            //         email: 'Электронная почта',
-            //         password: 'Пароль',
-            //       },
-            //     },
-            //   },
-            //   resources: {
-            //     User: {
-            //       properties: {
-            //         email: 'Электронная почта',
-            //         firstName: 'Имя',
-            //         lastName: 'Фамилия',
-            //         role: 'Роль',
-            //         password: 'Пароль',
-            //         Id: 'ID',
-            //         birthdate: 'Дата рождения',
-            //         avatar: 'Аватар',
-            //         createdAt: 'Дата создания',
-            //         updatedAt: 'Дата обновления',
-            //       },
-            //     },
-            //   },
-            // },
           },
         },
         resources: [
@@ -154,12 +65,13 @@ export default AdminModule.createAdminAsync({
               actions: {
                 new: {
                   after: [
-                    async (res: ActionResponse, req: ActionRequest) => {
+                    async (
+                      res: ActionResponse,
+                      req: ActionRequest,
+                    ): Promise<ActionResponse> => {
                       await authService.create(
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-                        res.record.params._id,
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                        req.payload?.password,
+                        res.record.params._id as string,
+                        req.payload?.password as string,
                       );
                       return res;
                     },
@@ -174,8 +86,11 @@ export default AdminModule.createAdminAsync({
         ],
       },
       auth: {
-        authenticate: async (email: string, password: string) => {
-          return authService.validateAdmin(email, password);
+        authenticate: async (
+          email: string,
+          password: string,
+        ) => {
+          return authService.validateAdmin(email, password) as any;
         },
         cookieName: 'adminjs',
         cookiePassword: 'secret',
@@ -187,4 +102,4 @@ export default AdminModule.createAdminAsync({
       },
     };
   },
-});
+} as any);
