@@ -4,6 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { isUUID } from 'class-validator';
 import { EUserRole, UserEntity } from 'src/models/user.entity';
 import { Repository } from 'typeorm';
 
@@ -15,8 +16,10 @@ export class UsersService {
   ) {}
 
   async getUserById(id: string) {
-    if (typeof id !== 'string') {
-      throw new BadRequestException('Идентификатор пользователя не указан');
+    if (!isUUID(id, '4')) {
+      throw new BadRequestException(
+        'Идентификатор пользователя не указан неправильно',
+      );
     }
 
     const user = await this.repo.findOne({
@@ -99,8 +102,10 @@ export class UsersService {
   }
 
   async deleteUser(id: string) {
-    if (typeof id !== 'string') {
-      throw new BadRequestException('Идентификатор указан неправильно');
+    if (!isUUID(id, '4')) {
+      throw new BadRequestException(
+        'Идентификатор пользователя не указан неправильно',
+      );
     }
 
     const user = await this.repo.findOne({ where: { id } });
