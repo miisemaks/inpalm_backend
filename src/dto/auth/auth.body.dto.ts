@@ -61,3 +61,26 @@ export class AuthRegisterBodyDto {
   @IsPhoneNumber('RU')
   phone: string | null;
 }
+
+@ApiSchema({ name: 'AuthSendCodeNewEmailBodyDto' })
+export class AuthSendCodeNewEmailBodyDto {
+  @ApiProperty({
+    type: 'string',
+  })
+  @IsEmail()
+  newEmail: string;
+}
+
+@ApiSchema({ name: 'AuthVerifyCodeNewEmailBodyDto' })
+export class AuthVerifyCodeNewEmailBodyDto {
+  @ApiProperty({
+    type: 'string',
+  })
+  @IsEmail()
+  newEmail: string;
+
+  @ApiProperty({
+    type: 'string',
+  })
+  code: string;
+}

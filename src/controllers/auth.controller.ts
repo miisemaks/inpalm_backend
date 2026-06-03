@@ -1,16 +1,22 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   AuthGetCodeBodyDto,
   AuthRegisterBodyDto,
+  AuthSendCodeNewEmailBodyDto,
   AuthVerifyCodeBodyDto,
+  AuthVerifyCodeNewEmailBodyDto,
 } from 'src/dto/auth/auth.body.dto';
 import {
   AuthGetCodeResponseDto,
   AuthRegisterResponseDto,
+  AuthSendCodeNewEmailResponseDto,
+  AuthVerifyCodeNewEmailResponseDto,
   AuthVerifyCodeResponseDto,
 } from 'src/dto/auth/auth.response.dto';
+import { AuthGuard } from 'src/guard/auth.guard';
 import { AuthService } from 'src/services/auth.service';
+import type { RequestWithUser } from 'src/types/request-with-user';
 
 @ApiTags('auth')
 @Controller('/api/auth')
@@ -59,5 +65,39 @@ export class AuthController {
     @Body() data: AuthRegisterBodyDto,
   ): Promise<AuthRegisterResponseDto> {
     return await this.service.register(data);
+  }
+
+  @Post('email/get-code')
+  @UseGuards(AuthGuard)
+  @ApiOperation({
+    summary: 'Получить код новому email',
+  })
+  @ApiOkResponse({
+    type: AuthSendCodeNewEmailResponseDto,
+  })
+  async getCodeToNewEmail(
+    @Body() data: AuthSendCodeNewEmailBodyDto,
+    @Request() req: RequestWithUser,
+  ): Promise<AuthSendCodeNewEmailResponseDto> {
+    return await this.service.sendCodeToNewEmail(req.user?.id, data.newEmail);
+  }
+
+  @Post('email/confirm')
+  @UseGuards(AuthGuard)
+  @ApiOperation({
+    summary: 'Верификация новой электронной почты',
+  })
+  @ApiOkResponse({
+    type: AuthVerifyCodeNewEmailResponseDto,
+  })
+  async verifyCodeToNewEmail(
+    @Body() data: AuthVerifyCodeNewEmailBodyDto,
+    @Request() req: RequestWithUser,
+  ): Promise<AuthVerifyCodeNewEmailResponseDto> {
+    return await this.service.verifyCodeToNewEmail(
+      req.user?.id,
+      data.newEmail,
+      data.code,
+    );
   }
 }

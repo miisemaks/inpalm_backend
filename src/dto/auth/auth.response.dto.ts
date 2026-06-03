@@ -38,3 +38,27 @@ export class AuthRegisterResponseDto {
   })
   expires: string;
 }
+
+@ApiSchema({ name: 'AuthSendCodeNewEmailResponseDto' })
+export class AuthSendCodeNewEmailResponseDto {
+  @ApiProperty({
+    type: 'string',
+  })
+  expires: string;
+}
+
+@ApiSchema({ name: 'AuthVerifyCodeNewEmailResponseDto' })
+export class AuthVerifyCodeNewEmailResponseDto {
+  @ApiProperty({
+    type: 'string',
+  })
+  accessToken: string;
+
+  @ApiProperty({
+    type: 'string',
+  })
+  token: string;
+
+  @ApiProperty({ type: UserDto })
+  user: UserDto;
+}

@@ -149,4 +149,58 @@ export class AuthService {
       expires: expires,
     };
   }
+
+  async sendCodeToNewEmail(id: string, newEmail: string) {
+    const isEmailExist = await this.userService.checkEmailExist(newEmail);
+    const user = await this.userService.getUserById(id);
+
+    if (isEmailExist) {
+      throw new BadRequestException(
+        'Новая электронная почта уже используется другим пользователем',
+      );
+    }
+
+    const randomCode = 1234;
+
+    user.loginCode = randomCode.toString();
+    const expires = dayjs().add(2, 'minute').toISOString();
+    user.codeExpires = expires;
+    await user.save();
+
+    return { expires };
+  }
+
+  async verifyCodeToNewEmail(id: string, newEmail: string, code: string) {
+    if (!isEmail(newEmail)) {
+      throw new BadRequestException('Неверный формат электронной почты');
+    }
+
+    const isEmailExist = await this.userService.checkEmailExist(newEmail);
+    const user = await this.userService.getUserById(id);
+
+    if (isEmailExist) {
+      throw new BadRequestException(
+        'Новая электронная почта уже используется другим пользователем',
+      );
+    }
+
+    if (dayjs().isAfter(user.codeExpires, 'second')) {
+      throw new BadRequestException('Срок действия кода истек');
+    }
+
+    if (user.loginCode === null) {
+      throw new BadRequestException('Вы не отправили код подтверждения');
+    }
+
+    if (code !== user.loginCode) {
+      throw new BadRequestException('Код недействителен');
+    }
+
+    user.email = newEmail;
+    user.loginCode = null;
+    user.codeExpires = null;
+    await user.save();
+
+    return await this.getTokens(user);
+  }
 }
