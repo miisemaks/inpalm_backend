@@ -114,4 +114,39 @@ export class AuthService {
 
     return this.getTokens(refreshToken.user);
   }
+
+  async register(data: {
+    email: string;
+    firstName: string | null;
+    lastName: string | null;
+    phone: string | null;
+  }) {
+    const checkEmail = await this.userService.checkEmailExist(data.email);
+    if (checkEmail) {
+      throw new BadRequestException(
+        'Пользователь с таким email уже существует',
+      );
+    }
+
+    if (data.phone) {
+      const checkPhone = await this.userService.checkPhoneExist(data.phone);
+      if (checkPhone) {
+        throw new BadRequestException(
+          'Пользователь с таким номером телефона уже существует',
+        );
+      }
+    }
+
+    const user = await this.userService.create(data);
+    const randomCode = 1234;
+
+    user.loginCode = randomCode.toString();
+    const expires = dayjs().add(2, 'minute').toISOString();
+    user.codeExpires = expires;
+    await user.save();
+
+    return {
+      expires: expires,
+    };
+  }
 }
