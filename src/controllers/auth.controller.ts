@@ -41,6 +41,7 @@ export class AuthController {
     const response = await this.service.verifyCode(data.email, data.code);
     return {
       access_token: response.accessToken,
+      refresh_token: response.token,
       user: response.user,
     };
   }

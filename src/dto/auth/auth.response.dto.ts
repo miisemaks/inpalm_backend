@@ -18,10 +18,13 @@ export class AuthGetCodeResponseDto {
 export class AuthVerifyCodeResponseDto {
   @ApiProperty({
     type: 'string',
-    example:
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjhlN2FhOWFiLWRiM2YtNDdiZi04OWQyLTUzYTRkNmQwYTM0ZSIsImVtYWlsIjoidGVtcEBtYWlsLnJ1Iiwicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNzgwNDUyNzM5LCJleHAiOjE5MzgyNDA3Mzl9.CRYwDxWJvZovWP2Q-vGXyGKlTEnkYpVZvKcqwsIneno',
+    example: 'access_token',
   })
   access_token: string;
+
+  @ApiProperty({ type: 'string' })
+  refresh_token: string;
+
   @ApiProperty({ type: UserDto })
   user: UserDto;
 }

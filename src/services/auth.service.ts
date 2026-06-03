@@ -110,11 +110,16 @@ export class AuthService {
         token,
         expires: MoreThan(now),
       },
+      relations: {
+        user: true,
+      },
     });
 
     if (!refreshToken) {
       throw new UnauthorizedException('Неправильный refresh token');
     }
+
+    await this.refreshTokenRepo.delete({ token: refreshToken.token });
 
     return this.getTokens(refreshToken.user);
   }
