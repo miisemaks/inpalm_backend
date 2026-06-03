@@ -128,6 +128,15 @@ export class AuthService {
       );
     }
 
+    if (data.phone) {
+      const checkPhone = await this.userService.checkPhoneExist(data.phone);
+      if (checkPhone) {
+        throw new BadRequestException(
+          'Пользователь с таким номером телефона уже существует',
+        );
+      }
+    }
+
     const user = await this.userService.create(data);
     const randomCode = 1234;
 

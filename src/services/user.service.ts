@@ -67,6 +67,12 @@ export class UsersService {
     return !!user;
   }
 
+  async checkPhoneExist(phone: string) {
+    const user = await this.repo.findOne({ where: { phone } });
+
+    return !!user;
+  }
+
   async create(data: {
     email: string;
     firstName: string | null;

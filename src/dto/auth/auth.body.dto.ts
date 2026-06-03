@@ -1,4 +1,5 @@
 import { ApiProperty, ApiSchema } from '@nestjs/swagger';
+import { IsEmail, IsPhoneNumber } from 'class-validator';
 
 @ApiSchema({
   name: 'AuthGetCodeBodyDto',
@@ -35,6 +36,7 @@ export class AuthRegisterBodyDto {
     type: 'string',
     example: 'temp@mail.ru',
   })
+  @IsEmail()
   email: string;
 
   @ApiProperty({
@@ -56,5 +58,6 @@ export class AuthRegisterBodyDto {
     type: 'string',
     example: '+7 (000) 000-00-00',
   })
+  @IsPhoneNumber('RU')
   phone: string | null;
 }
