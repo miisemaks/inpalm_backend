@@ -87,6 +87,9 @@ export class AuthController {
   @ApiOperation({
     summary: 'Верификация новой электронной почты',
   })
+  @ApiOkResponse({
+    type: AuthVerifyCodeNewEmailResponseDto,
+  })
   async verifyCodeToNewEmail(
     @Body() data: AuthVerifyCodeNewEmailBodyDto,
     @Request() req: RequestWithUser,

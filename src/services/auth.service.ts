@@ -171,6 +171,10 @@ export class AuthService {
   }
 
   async verifyCodeToNewEmail(id: string, newEmail: string, code: string) {
+    if (isEmail(newEmail)) {
+      throw new BadRequestException('Неверный формат электронной почты');
+    }
+
     const isEmailExist = await this.userService.checkEmailExist(newEmail);
     const user = await this.userService.getUserById(id);
 

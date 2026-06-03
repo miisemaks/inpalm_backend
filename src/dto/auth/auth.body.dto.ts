@@ -67,6 +67,7 @@ export class AuthSendCodeNewEmailBodyDto {
   @ApiProperty({
     type: 'string',
   })
+  @IsEmail()
   newEmail: string;
 }
 
@@ -75,6 +76,7 @@ export class AuthVerifyCodeNewEmailBodyDto {
   @ApiProperty({
     type: 'string',
   })
+  @IsEmail()
   newEmail: string;
 
   @ApiProperty({
