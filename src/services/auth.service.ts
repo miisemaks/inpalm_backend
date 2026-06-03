@@ -1,7 +1,6 @@
 import {
   BadRequestException,
   Injectable,
-  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -30,10 +29,6 @@ export class AuthService {
     }
     const user = await this.userService.getUserByEmail(email);
 
-    if (!user) {
-      throw new NotFoundException('Пользователь не найден');
-    }
-
     const randomCode = 1234;
 
     user.loginCode = randomCode.toString();
@@ -49,10 +44,6 @@ export class AuthService {
       throw new BadRequestException('Электронная почта указано неправильно');
     }
     const user = await this.userService.getUserByEmail(email);
-
-    if (!user) {
-      throw new NotFoundException('Пользователь не найден');
-    }
 
     if (dayjs().isAfter(user.codeExpires, 'second')) {
       throw new BadRequestException('Срок действия кода истек');
