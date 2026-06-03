@@ -171,7 +171,7 @@ export class AuthService {
   }
 
   async verifyCodeToNewEmail(id: string, newEmail: string, code: string) {
-    if (isEmail(newEmail)) {
+    if (!isEmail(newEmail)) {
       throw new BadRequestException('Неверный формат электронной почты');
     }
 
