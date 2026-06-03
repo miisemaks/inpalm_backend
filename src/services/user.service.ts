@@ -61,6 +61,12 @@ export class UsersService {
     return user;
   }
 
+  async checkEmailExist(email: string) {
+    const user = await this.repo.findOne({ where: { email } });
+
+    return !!user;
+  }
+
   async create(data: {
     email: string;
     firstName: string | null;

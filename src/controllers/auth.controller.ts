@@ -2,10 +2,12 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   AuthGetCodeBodyDto,
+  AuthRegisterBodyDto,
   AuthVerifyCodeBodyDto,
 } from 'src/dto/auth/auth.body.dto';
 import {
   AuthGetCodeResponseDto,
+  AuthRegisterResponseDto,
   AuthVerifyCodeResponseDto,
 } from 'src/dto/auth/auth.response.dto';
 import { AuthService } from 'src/services/auth.service';
@@ -44,5 +46,18 @@ export class AuthController {
       refresh_token: response.token,
       user: response.user,
     };
+  }
+
+  @Post('register')
+  @ApiOperation({
+    summary: 'Регистрация пользователя',
+  })
+  @ApiOkResponse({
+    type: AuthRegisterResponseDto,
+  })
+  async register(
+    @Body() data: AuthRegisterBodyDto,
+  ): Promise<AuthRegisterResponseDto> {
+    return await this.service.register(data);
   }
 }

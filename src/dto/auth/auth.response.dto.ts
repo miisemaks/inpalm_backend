@@ -28,3 +28,13 @@ export class AuthVerifyCodeResponseDto {
   @ApiProperty({ type: UserDto })
   user: UserDto;
 }
+
+@ApiSchema({
+  name: 'AuthRegisterResponseDto',
+})
+export class AuthRegisterResponseDto {
+  @ApiProperty({
+    type: 'string',
+  })
+  expires: string;
+}
