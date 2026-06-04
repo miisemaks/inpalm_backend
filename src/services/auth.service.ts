@@ -203,4 +203,14 @@ export class AuthService {
 
     return await this.getTokens(user);
   }
+
+  async logout(id: string) {
+    const user = await this.userService.getUserById(id);
+    const result = await this.refreshTokenRepo.delete({ user: user });
+
+    if (result.affected && result.affected > 0) {
+      return { success: true };
+    }
+    return { success: false };
+  }
 }

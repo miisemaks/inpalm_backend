@@ -9,6 +9,7 @@ import {
 } from 'src/dto/auth/auth.body.dto';
 import {
   AuthGetCodeResponseDto,
+  AuthLogoutResponseDto,
   AuthRegisterResponseDto,
   AuthSendCodeNewEmailResponseDto,
   AuthVerifyCodeNewEmailResponseDto,
@@ -99,5 +100,21 @@ export class AuthController {
       data.newEmail,
       data.code,
     );
+  }
+
+  @Post('logout')
+  @UseGuards(AuthGuard)
+  @ApiOperation({
+    summary: 'Выход с аккаунта',
+  })
+  @ApiOkResponse({
+    type: AuthLogoutResponseDto,
+  })
+  async logout(
+    @Request() req: RequestWithUser,
+  ): Promise<AuthLogoutResponseDto> {
+    const response = await this.service.logout(req.user.id);
+
+    return { status: response.success };
   }
 }
