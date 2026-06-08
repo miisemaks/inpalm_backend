@@ -62,3 +62,11 @@ export class AuthVerifyCodeNewEmailResponseDto {
   @ApiProperty({ type: UserDto })
   user: UserDto;
 }
+
+@ApiSchema({ name: 'AuthLogoutResponseDto' })
+export class AuthLogoutResponseDto {
+  @ApiProperty({
+    type: 'boolean',
+  })
+  status: boolean;
+}
