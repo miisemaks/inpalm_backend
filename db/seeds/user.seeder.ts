@@ -15,10 +15,10 @@ export class UserSeeder {
 
     if (count === 0) {
       const user = this.userRepo.create({
-        email: process.env.SEEDER_USER_EMAIL,
-        phone: process.env.SEEDER_USER_PHONE,
-        firstName: process.env.SEEDER_USER_FIRSTNAME,
-        lastName: process.env.SEEDER_USER_LASTNAME,
+        email: process.env.SEEDER_USER_EMAIL!,
+        phone: process.env.SEEDER_USER_PHONE!,
+        firstName: process.env.SEEDER_USER_FIRSTNAME!,
+        lastName: process.env.SEEDER_USER_LASTNAME!,
         role: EUserRole.admin,
       });
 

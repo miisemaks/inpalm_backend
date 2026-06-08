@@ -10,6 +10,7 @@ async function bootstrap() {
     await seeder.seed();
   } catch (e) {
     console.error('Ошибка сидинга', e);
+    process.exitCode = 1;
   } finally {
     await appContext.close();
   }
