@@ -6,6 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { isUUID } from 'class-validator';
 import { EUserRole, UserEntity } from 'src/models/user.entity';
+import { profanity } from 'src/utils/profanity.util';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -86,6 +87,18 @@ export class UsersService {
       );
     }
 
+    if (data.firstName && profanity.exists(data.firstName)) {
+      throw new BadRequestException(
+        'Вы использовали оскорбительные слова к имени',
+      );
+    }
+
+    if (data.lastName && profanity.exists(data.lastName ?? '')) {
+      throw new BadRequestException(
+        'Вы использовали оскорбительные слова к фамилии',
+      );
+    }
+
     const newUser = new UserEntity();
     newUser.email = data.email;
     newUser.firstName = data.firstName;
@@ -106,6 +119,18 @@ export class UsersService {
   ) {
     if (typeof id !== 'string') {
       throw new BadRequestException('Идентификатор указан неправильно');
+    }
+
+    if (data.firstName && profanity.exists(data.firstName)) {
+      throw new BadRequestException(
+        'Вы использовали оскорбительные слова к имени',
+      );
+    }
+
+    if (data.lastName && profanity.exists(data.lastName)) {
+      throw new BadRequestException(
+        'Вы использовали оскорбительные слова к фамилии',
+      );
     }
 
     await this.repo.update({ id }, { ...data });
