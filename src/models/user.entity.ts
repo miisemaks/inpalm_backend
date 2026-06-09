@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { RefreshTokenEntity } from './refresh-token.entity';
+import { PublicationEntity } from './publication.entity';
 
 export enum EUserRole {
   customer = 'customer',
@@ -43,6 +44,9 @@ export class UserEntity extends BaseEntity {
 
   @OneToMany(() => RefreshTokenEntity, (item) => item.user)
   refreshTokens: RefreshTokenEntity[];
+
+  @OneToMany(() => PublicationEntity, (item) => item.author)
+  publications: PublicationEntity[];
 
   @CreateDateColumn({
     name: 'created_at',
