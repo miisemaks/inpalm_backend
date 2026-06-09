@@ -6,15 +6,8 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { isUUID } from 'class-validator';
 import { EUserRole, UserEntity } from 'src/models/user.entity';
+import { profanity } from 'src/utils/profanity.util';
 import { Repository } from 'typeorm';
-import { Profanity } from '@2toad/profanity';
-
-const profanity = new Profanity({
-  languages: ['ru'],
-  wholeWord: false,
-  grawlix: '*****',
-  grawlixChar: '$',
-});
 
 @Injectable()
 export class UsersService {
