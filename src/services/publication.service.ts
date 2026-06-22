@@ -5,6 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { isUUID } from 'class-validator';
 import { PublicationCategoryEntity } from 'src/models/publication-category.entity';
 import { PublicationSubcategoryEntity } from 'src/models/publication-subcategory.entity';
 import {
@@ -146,6 +147,34 @@ export class PublicationsService {
     }
 
     await publication.save();
+    return publication;
+  }
+
+  async delete(id: string, userId: string) {
+    if (typeof id !== 'string' || !isUUID(id)) {
+      throw new BadRequestException('ID публикации неверно указан');
+    }
+
+    const publication = await this.repo.findOne({
+      where: {
+        id: id,
+      },
+      relations: {
+        category: true,
+        subcategory: true,
+      },
+    });
+
+    if (!publication) {
+      throw new NotFoundException('Публикация не найдена');
+    }
+
+    if (publication.authorId !== userId) {
+      throw new ForbiddenException('Вы не можете удалить публикацию');
+    }
+
+    await this.repo.delete(id);
+
     return publication;
   }
 }
