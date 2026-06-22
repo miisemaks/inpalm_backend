@@ -10,6 +10,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { UserEntity } from './user.entity';
+import { PublicationSubcategoryEntity } from './publication-subcategory.entity';
+import { PublicationCategoryEntity } from './publication-category.entity';
 
 export enum EPublicationStatus {
   created = 'created',
@@ -31,6 +33,26 @@ export class PublicationEntity extends BaseEntity {
 
   @Column({ type: 'text' })
   content: string;
+
+  @Column({ type: 'boolean', name: 'is_active' })
+  isActive: boolean;
+
+  @Column({ type: 'varchar', nullable: true, name: 'delete_reason' })
+  deleteReason: string | null;
+
+  @ManyToOne(
+    () => PublicationCategoryEntity,
+    (category) => category.publications,
+  )
+  @JoinColumn({ name: 'category_id' })
+  category: PublicationCategoryEntity;
+
+  @ManyToOne(
+    () => PublicationSubcategoryEntity,
+    (subcategory) => subcategory.publications,
+  )
+  @JoinColumn({ name: 'subcategory_id' })
+  subcategory: PublicationSubcategoryEntity;
 
   @ManyToOne(() => UserEntity, (user) => user.publications)
   @JoinColumn({ name: 'user_id' })

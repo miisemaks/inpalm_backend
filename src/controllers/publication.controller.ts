@@ -5,30 +5,29 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { PublicationBodyCreateDto } from 'src/dto/publication/publication.body.dto';
+import { PublicationBodyCreate } from 'src/dto/publication/publication.body.dto';
 import { PublicationDto } from 'src/dto/publication/publication.dto';
 import { PublicationResponseDto } from 'src/dto/publication/publication.response.dto';
 import { AuthGuard } from 'src/guard/auth.guard';
 import { PublicationsService } from 'src/services/publication.service';
 import type { RequestWithUser } from 'src/types/request-with-user';
 
-@ApiTags('publications')
+@ApiTags({ name: 'Публикации' })
 @Controller('api/publications')
 export class PublicationController {
   constructor(private readonly service: PublicationsService) {}
 
-  @Post('')
+  @Post()
   @UseGuards(AuthGuard)
   @ApiOperation({
     summary: 'Создание публикации',
+    description: 'Создание публикации авторизованного пользователя',
   })
-  @ApiOkResponse({
-    type: PublicationResponseDto,
-  })
+  @ApiOkResponse({ type: PublicationResponseDto })
   @ApiBadRequestResponse()
   async createPublication(
     @Request() req: RequestWithUser,
-    @Body('data') data: PublicationBodyCreateDto,
+    @Body() data: PublicationBodyCreate,
   ): Promise<PublicationResponseDto> {
     const publication = await this.service.create(data, req.user.id);
 

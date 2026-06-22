@@ -1,8 +1,5 @@
-import { Profanity } from '@2toad/profanity';
+import { profanityCheck } from 'profanity-guard';
 
-export const profanity = new Profanity({
-  languages: ['ru'],
-  wholeWord: false,
-  grawlix: '*****',
-  grawlixChar: '$',
-});
+export const badWordsCheck = (str: string) => {
+  return profanityCheck(str, 'ru');
+};

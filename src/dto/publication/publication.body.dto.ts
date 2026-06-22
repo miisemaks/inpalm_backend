@@ -1,10 +1,10 @@
 import { ApiProperty, ApiSchema } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsString, IsUUID, MaxLength } from 'class-validator';
 
 @ApiSchema({
-  name: 'PublicationBodyCreateDto',
+  name: 'PublicationBodyCreate',
 })
-export class PublicationBodyCreateDto {
+export class PublicationBodyCreate {
   @ApiProperty({
     type: 'string',
     example: 'Example',
@@ -22,4 +22,24 @@ export class PublicationBodyCreateDto {
   @IsNotEmpty()
   @MaxLength(1000)
   content: string;
+
+  @ApiProperty({
+    type: 'string',
+    example: 'ID категории',
+    description: 'Заполните UUID категории',
+  })
+  @IsNotEmpty()
+  @IsUUID()
+  @MaxLength(255)
+  category: string;
+
+  @ApiProperty({
+    type: 'string',
+    example: 'ID подкатегории',
+    description: 'заполните UUID подкатегории',
+  })
+  @IsNotEmpty()
+  @IsUUID()
+  @MaxLength(255)
+  subcategory: string;
 }

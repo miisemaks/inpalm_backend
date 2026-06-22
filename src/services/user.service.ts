@@ -6,8 +6,8 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { isUUID } from 'class-validator';
 import { EUserRole, UserEntity } from 'src/models/user.entity';
-import { profanity } from 'src/utils/profanity.util';
 import { Repository } from 'typeorm';
+import { badWordsCheck } from 'src/utils/profanity.util';
 
 @Injectable()
 export class UsersService {
@@ -86,14 +86,13 @@ export class UsersService {
         'Пользователь с таким email уже существует',
       );
     }
-
-    if (data.firstName && profanity.exists(data.firstName)) {
+    if (data.firstName && badWordsCheck(data.firstName)) {
       throw new BadRequestException(
         'Вы использовали оскорбительные слова к имени',
       );
     }
 
-    if (data.lastName && profanity.exists(data.lastName ?? '')) {
+    if (data.lastName && badWordsCheck(data.lastName)) {
       throw new BadRequestException(
         'Вы использовали оскорбительные слова к фамилии',
       );
@@ -121,13 +120,13 @@ export class UsersService {
       throw new BadRequestException('Идентификатор указан неправильно');
     }
 
-    if (data.firstName && profanity.exists(data.firstName)) {
+    if (data.firstName && badWordsCheck(data.firstName)) {
       throw new BadRequestException(
         'Вы использовали оскорбительные слова к имени',
       );
     }
 
-    if (data.lastName && profanity.exists(data.lastName)) {
+    if (data.lastName && badWordsCheck(data.lastName)) {
       throw new BadRequestException(
         'Вы использовали оскорбительные слова к фамилии',
       );

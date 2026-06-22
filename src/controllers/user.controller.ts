@@ -25,7 +25,9 @@ import { AuthGuard } from 'src/guard/auth.guard';
 import { UsersService } from 'src/services/user.service';
 import type { RequestWithUser } from 'src/types/request-with-user';
 
-@ApiTags('users')
+@ApiTags({
+  name: 'Пользователь',
+})
 @ApiBearerAuth()
 @Controller('api/users')
 export class UserController {

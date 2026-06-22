@@ -4,6 +4,8 @@ import {
   PublicationEntity,
 } from 'src/models/publication.entity';
 import { UserEntity } from 'src/models/user.entity';
+import { PublicationCategory } from './category.dto';
+import { PublicationSubcategory } from './subcategory.dto';
 
 @ApiSchema({ name: 'PublicationDto' })
 export class PublicationDto {
@@ -18,6 +20,31 @@ export class PublicationDto {
     default: EPublicationStatus.created,
   })
   status: EPublicationStatus;
+
+  @ApiProperty({
+    type: () => PublicationCategory,
+    nullable: true,
+  })
+  category: PublicationCategory | null;
+
+  @ApiProperty({
+    type: () => PublicationSubcategory,
+    nullable: true,
+  })
+  subcategory: PublicationSubcategory | null;
+
+  @ApiProperty({
+    type: 'string',
+    nullable: true,
+    example: 'Текст причины удаления',
+  })
+  deleteReason: string | null;
+
+  @ApiProperty({
+    type: 'boolean',
+    example: true,
+  })
+  isActive: boolean;
 
   @ApiProperty({ type: 'string', example: 'Пример' })
   title: string;
@@ -43,6 +70,8 @@ export class PublicationDto {
     this.content = entity.content;
     this.views = entity.views;
     this.author = entity.author;
+    this.category = new PublicationCategory(entity.category);
+    this.subcategory = new PublicationSubcategory(entity.subcategory);
 
     this.createdAt = entity.createdAt;
     this.updatedAt = entity.updatedAt;

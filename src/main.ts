@@ -16,7 +16,6 @@ async function bootstrap() {
     .setTitle('Inpalm')
     .setDescription('Документация API бэкенда Inpalm')
     .setVersion('0.1')
-    .addTag('users')
     .addBearerAuth(
       {
         description: 'Введите токен следуя формату: Bearer <JWT>',
