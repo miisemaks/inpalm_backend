@@ -2,7 +2,7 @@ import { ApiProperty, ApiSchema } from '@nestjs/swagger';
 import { IsEmail, IsPhoneNumber } from 'class-validator';
 
 @ApiSchema({
-  name: 'AuthGetCodeBodyDto',
+  name: 'AuthGetCodeBody',
 })
 export class AuthGetCodeBodyDto {
   @ApiProperty({
@@ -13,7 +13,7 @@ export class AuthGetCodeBodyDto {
 }
 
 @ApiSchema({
-  name: 'AuthVerifyCodeBodyDto',
+  name: 'AuthVerifyCodeBody',
 })
 export class AuthVerifyCodeBodyDto {
   @ApiProperty({
@@ -29,7 +29,7 @@ export class AuthVerifyCodeBodyDto {
 }
 
 @ApiSchema({
-  name: 'AuthRegisterBodyDto',
+  name: 'AuthRegisterBody',
 })
 export class AuthRegisterBodyDto {
   @ApiProperty({
@@ -62,7 +62,7 @@ export class AuthRegisterBodyDto {
   phone: string | null;
 }
 
-@ApiSchema({ name: 'AuthSendCodeNewEmailBodyDto' })
+@ApiSchema({ name: 'AuthSendCodeNewEmailBody' })
 export class AuthSendCodeNewEmailBodyDto {
   @ApiProperty({
     type: 'string',
@@ -71,7 +71,7 @@ export class AuthSendCodeNewEmailBodyDto {
   newEmail: string;
 }
 
-@ApiSchema({ name: 'AuthVerifyCodeNewEmailBodyDto' })
+@ApiSchema({ name: 'AuthVerifyCodeNewEmailBody' })
 export class AuthVerifyCodeNewEmailBodyDto {
   @ApiProperty({
     type: 'string',

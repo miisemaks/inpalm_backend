@@ -43,3 +43,47 @@ export class PublicationBodyCreate {
   @MaxLength(255)
   subcategory: string;
 }
+
+export class PublicationBodyEdit {
+  @ApiProperty({
+    type: 'string',
+    example: 'Example',
+    nullable: true,
+  })
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(200)
+  title: string | null;
+
+  @ApiProperty({
+    type: 'string',
+    example: 'Content text',
+    nullable: true,
+  })
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(1000)
+  content: string | null;
+
+  @ApiProperty({
+    type: 'string',
+    example: 'ID категории',
+    description: 'Заполните UUID категории',
+    nullable: true,
+  })
+  @IsNotEmpty()
+  @IsUUID()
+  @MaxLength(255)
+  category: string | null;
+
+  @ApiProperty({
+    type: 'string',
+    example: 'ID подкатегории',
+    description: 'заполните UUID подкатегории',
+    nullable: true,
+  })
+  @IsNotEmpty()
+  @IsUUID()
+  @MaxLength(255)
+  subcategory: string | null;
+}

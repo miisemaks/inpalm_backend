@@ -1,7 +1,7 @@
 import { ApiProperty, ApiSchema } from '@nestjs/swagger';
 
 @ApiSchema({
-  name: 'UserBodyUpdateDto',
+  name: 'UserBodyUpdate',
 })
 export class UserBodyUpdateDto {
   @ApiProperty({
