@@ -19,7 +19,9 @@ import { AuthGuard } from 'src/guard/auth.guard';
 import { AuthService } from 'src/services/auth.service';
 import type { RequestWithUser } from 'src/types/request-with-user';
 
-@ApiTags('auth')
+@ApiTags({
+  name: 'Авторизация',
+})
 @Controller('/api/auth')
 export class AuthController {
   constructor(private readonly service: AuthService) {}
