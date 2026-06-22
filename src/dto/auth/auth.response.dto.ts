@@ -2,7 +2,7 @@ import { ApiProperty, ApiSchema } from '@nestjs/swagger';
 import { UserDto } from '../user/user.dto';
 
 @ApiSchema({
-  name: 'AuthGetCodeResponseDto',
+  name: 'AuthGetCodeResponse',
 })
 export class AuthGetCodeResponseDto {
   @ApiProperty({
@@ -13,7 +13,7 @@ export class AuthGetCodeResponseDto {
 }
 
 @ApiSchema({
-  name: 'AuthVerifyCodeResponseDto',
+  name: 'AuthVerifyCodeResponse',
 })
 export class AuthVerifyCodeResponseDto {
   @ApiProperty({
@@ -30,7 +30,7 @@ export class AuthVerifyCodeResponseDto {
 }
 
 @ApiSchema({
-  name: 'AuthRegisterResponseDto',
+  name: 'AuthRegisterResponse',
 })
 export class AuthRegisterResponseDto {
   @ApiProperty({
@@ -39,7 +39,7 @@ export class AuthRegisterResponseDto {
   expires: string;
 }
 
-@ApiSchema({ name: 'AuthSendCodeNewEmailResponseDto' })
+@ApiSchema({ name: 'AuthSendCodeNewEmailResponse' })
 export class AuthSendCodeNewEmailResponseDto {
   @ApiProperty({
     type: 'string',
@@ -47,7 +47,7 @@ export class AuthSendCodeNewEmailResponseDto {
   expires: string;
 }
 
-@ApiSchema({ name: 'AuthVerifyCodeNewEmailResponseDto' })
+@ApiSchema({ name: 'AuthVerifyCodeNewEmailResponse' })
 export class AuthVerifyCodeNewEmailResponseDto {
   @ApiProperty({
     type: 'string',
@@ -63,7 +63,7 @@ export class AuthVerifyCodeNewEmailResponseDto {
   user: UserDto;
 }
 
-@ApiSchema({ name: 'AuthLogoutResponseDto' })
+@ApiSchema({ name: 'AuthLogoutResponse' })
 export class AuthLogoutResponseDto {
   @ApiProperty({
     type: 'boolean',

@@ -2,7 +2,7 @@ import { ApiProperty, ApiSchema } from '@nestjs/swagger';
 import { IsEmail, IsPhoneNumber } from 'class-validator';
 import { EUserRole, UserEntity } from 'src/models/user.entity';
 
-@ApiSchema({ name: 'UserDto' })
+@ApiSchema({ name: 'User' })
 export class UserDto {
   @ApiProperty({
     type: 'string',

@@ -1,11 +1,22 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Param,
+  Post,
+  Put,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { PublicationBodyCreate } from 'src/dto/publication/publication.body.dto';
+import {
+  PublicationBodyCreate,
+  PublicationBodyEdit,
+} from 'src/dto/publication/publication.body.dto';
 import { PublicationDto } from 'src/dto/publication/publication.dto';
 import { PublicationResponseDto } from 'src/dto/publication/publication.response.dto';
 import { AuthGuard } from 'src/guard/auth.guard';
@@ -31,6 +42,24 @@ export class PublicationController {
   ): Promise<PublicationResponseDto> {
     const publication = await this.service.create(data, req.user.id);
 
+    return { data: new PublicationDto(publication) };
+  }
+
+  @Put(':id')
+  @UseGuards(AuthGuard)
+  @ApiOperation({
+    summary: 'Редактирование публикации',
+    description:
+      'В поле data указывайте только те параметры, которые хотите изменить',
+  })
+  @ApiOkResponse({ type: PublicationResponseDto })
+  @ApiBadRequestResponse()
+  async editPublication(
+    @Request() req: RequestWithUser,
+    @Param('id') id: string,
+    @Body() data: PublicationBodyEdit,
+  ): Promise<PublicationResponseDto> {
+    const publication = await this.service.edit(id, data, req.user.id);
     return { data: new PublicationDto(publication) };
   }
 }

@@ -7,7 +7,7 @@ import { UserEntity } from 'src/models/user.entity';
 import { PublicationCategory } from './category.dto';
 import { PublicationSubcategory } from './subcategory.dto';
 
-@ApiSchema({ name: 'PublicationDto' })
+@ApiSchema({ name: 'Publication' })
 export class PublicationDto {
   @ApiProperty({
     type: 'string',
