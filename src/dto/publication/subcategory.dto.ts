@@ -24,7 +24,9 @@ export class PublicationSubcategory {
   constructor(entity: PublicationSubcategoryEntity) {
     this.id = entity.id;
     this.title = entity.title;
-    this.category = entity.category;
+    this.category = entity.category
+      ? new PublicationCategory(entity.category)
+      : null;
 
     this.createdAt = entity.createdAt;
     this.updatedAt = entity.updatedAt;

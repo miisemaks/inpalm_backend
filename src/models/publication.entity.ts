@@ -34,7 +34,7 @@ export class PublicationEntity extends BaseEntity {
   @Column({ type: 'text' })
   content: string;
 
-  @Column({ type: 'boolean', name: 'is_active' })
+  @Column({ type: 'boolean', name: 'is_active', default: true })
   isActive: boolean;
 
   @Column({ type: 'varchar', nullable: true, name: 'delete_reason' })

@@ -21,6 +21,10 @@ export class PublicationsService {
     private repo: Repository<PublicationEntity>,
     @InjectRepository(UserEntity)
     private userRepo: Repository<UserEntity>,
+    @InjectRepository(PublicationCategoryEntity)
+    private categoryRepo: Repository<PublicationCategoryEntity>,
+    @InjectRepository(PublicationSubcategoryEntity)
+    private subcategory: Repository<PublicationSubcategoryEntity>,
   ) {}
 
   async create(
@@ -36,8 +40,24 @@ export class PublicationsService {
       throw new BadRequestException('Не указан ID категории');
     }
 
+    const category = await this.categoryRepo.findOne({
+      where: { id: data.category },
+    });
+
+    if (!category) {
+      throw new BadRequestException('Категория не найдена');
+    }
+
     if (!data.subcategory) {
       throw new BadRequestException('Не указан ID подкатегории');
+    }
+
+    const subcategory = await this.subcategory.findOne({
+      where: { id: data.subcategory },
+    });
+
+    if (subcategory) {
+      throw new BadRequestException('Подкатегория не найдена');
     }
 
     const user = await this.userRepo.findOne({ where: { id: authorId } });

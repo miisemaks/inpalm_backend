@@ -25,13 +25,13 @@ export class PublicationDto {
     type: () => PublicationCategory,
     nullable: true,
   })
-  category: PublicationCategory | null;
+  category: PublicationCategory;
 
   @ApiProperty({
     type: () => PublicationSubcategory,
     nullable: true,
   })
-  subcategory: PublicationSubcategory | null;
+  subcategory: PublicationSubcategory;
 
   @ApiProperty({
     type: 'string',
