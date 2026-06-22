@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -83,5 +84,68 @@ export class PublicationsService {
     publication.status = EPublicationStatus.created;
 
     return await publication.save();
+  }
+
+  async edit(
+    id: string,
+    data: {
+      title: string | null;
+      content: string | null;
+      category: string | null;
+      subcategory: string | null;
+    },
+    userId: string,
+  ) {
+    if (!id) {
+      throw new BadRequestException('Идентификатор публикации не указан');
+    }
+    const publication = await this.repo.findOne({ where: { id: id } });
+    if (!publication) {
+      throw new BadRequestException('Публикация не найдена');
+    }
+    if (publication.authorId !== userId) {
+      throw new ForbiddenException('Вы не являетесь создателем публикации');
+    }
+
+    if (publication.title && badWordsCheck(publication.title)) {
+      throw new BadRequestException(
+        'Вы заполнили данные заголовка с оскорбительными словами',
+      );
+    }
+    if (data.title) publication.title = data.title;
+
+    if (publication.content && badWordsCheck(publication.content)) {
+      throw new BadRequestException(
+        'Вы заполнили данные контента с оскорбительными словами',
+      );
+    }
+    if (data.content) publication.content = data.content;
+
+    if (data.category !== null) {
+      const category = await this.categoryRepo.findOne({
+        where: { id: data.category },
+      });
+
+      if (!category) {
+        throw new BadRequestException('Категория не найдена');
+      }
+
+      publication.category = { id: data.category } as PublicationCategoryEntity;
+    }
+
+    if (data.subcategory !== null) {
+      const subcategory = await this.subcategory.findOne({
+        where: { id: data.subcategory },
+      });
+      if (!subcategory) {
+        throw new BadRequestException('Подкатегория не найдена');
+      }
+      publication.subcategory = {
+        id: data.subcategory,
+      } as PublicationSubcategoryEntity;
+    }
+
+    await publication.save();
+    return publication;
   }
 }
