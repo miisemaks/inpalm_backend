@@ -51,7 +51,6 @@ export class PublicationBodyEdit {
     nullable: true,
   })
   @IsString()
-  @IsNotEmpty()
   @MaxLength(200)
   title: string | null;
 
@@ -61,7 +60,6 @@ export class PublicationBodyEdit {
     nullable: true,
   })
   @IsString()
-  @IsNotEmpty()
   @MaxLength(1000)
   content: string | null;
 
@@ -71,7 +69,6 @@ export class PublicationBodyEdit {
     description: 'Заполните UUID категории',
     nullable: true,
   })
-  @IsNotEmpty()
   @IsUUID()
   @MaxLength(255)
   category: string | null;
@@ -82,7 +79,6 @@ export class PublicationBodyEdit {
     description: 'заполните UUID подкатегории',
     nullable: true,
   })
-  @IsNotEmpty()
   @IsUUID()
   @MaxLength(255)
   subcategory: string | null;

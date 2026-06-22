@@ -107,14 +107,14 @@ export class PublicationsService {
       throw new ForbiddenException('Вы не являетесь создателем публикации');
     }
 
-    if (publication.title && badWordsCheck(publication.title)) {
+    if (data.title && badWordsCheck(data.title)) {
       throw new BadRequestException(
         'Вы заполнили данные заголовка с оскорбительными словами',
       );
     }
     if (data.title) publication.title = data.title;
 
-    if (publication.content && badWordsCheck(publication.content)) {
+    if (data.content && badWordsCheck(data.content)) {
       throw new BadRequestException(
         'Вы заполнили данные контента с оскорбительными словами',
       );
