@@ -14,7 +14,7 @@ import {
 } from 'src/models/publication.entity';
 import { UserEntity } from 'src/models/user.entity';
 import { badWordsCheck } from 'src/utils/profanity.util';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()
 export class PublicationsService {
@@ -97,7 +97,7 @@ export class PublicationsService {
     },
     userId: string,
   ) {
-    if (!id) {
+    if (typeof id !== 'string' || !isUUID(id)) {
       throw new BadRequestException('Идентификатор публикации не указан');
     }
     const publication = await this.repo.findOne({
@@ -185,5 +185,84 @@ export class PublicationsService {
     }
 
     return publication;
+  }
+
+  async findOne(id: string) {
+    if (typeof id !== 'string' || !isUUID(id)) {
+      throw new BadRequestException('ID публикации указан неверно');
+    }
+
+    const publication = await this.repo.findOne({
+      where: { id: id },
+      relations: {
+        category: true,
+        subcategory: true,
+      },
+    });
+
+    if (!publication) {
+      throw new NotFoundException('Публикация не найдена');
+    }
+
+    return publication;
+  }
+
+  async find({
+    per_page = 20,
+    page = 0,
+    search = null,
+    category,
+    subcategory,
+  }: {
+    per_page: number | null;
+    page: number | null;
+    search: string | null;
+    category?: string | null;
+    subcategory?: string | null;
+  }) {
+    const baseCondition: FindOptionsWhere<PublicationEntity> = {};
+
+    if (category) {
+      baseCondition.category = { id: category } as PublicationCategoryEntity;
+    }
+
+    if (subcategory) {
+      baseCondition.subcategory = {
+        id: subcategory,
+      } as PublicationSubcategoryEntity;
+    }
+    const conditions: FindOptionsWhere<PublicationEntity>[] = [
+      {
+        title: search ?? undefined,
+        ...baseCondition,
+      },
+      {
+        content: search ?? undefined,
+        ...baseCondition,
+      },
+    ];
+    const publications = await this.repo.find({
+      where: conditions,
+      relations: {
+        category: true,
+        subcategory: true,
+      },
+      take: search ? undefined : (per_page ?? 20),
+      skip: search ? undefined : (page ?? 0) * (per_page ?? 20),
+    });
+
+    const total = await this.repo.count({ where: conditions });
+    const totalPages = Math.ceil(total / (per_page ?? 20));
+
+    return {
+      publications,
+      pagination: {
+        totalItems: total,
+        currentPage: page ?? 0,
+        perPage: per_page ?? 20,
+        totalPages,
+        hasNextPage: (page ?? 0) + 1 < totalPages,
+      },
+    };
   }
 }

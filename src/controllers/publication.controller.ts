@@ -2,9 +2,11 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   Post,
   Put,
+  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -17,9 +19,13 @@ import {
 import {
   PublicationBodyCreate,
   PublicationBodyEdit,
+  PublicationListQuery,
 } from 'src/dto/publication/publication.body.dto';
 import { PublicationDto } from 'src/dto/publication/publication.dto';
-import { PublicationResponseDto } from 'src/dto/publication/publication.response.dto';
+import {
+  PublicationListResponseDto,
+  PublicationResponseDto,
+} from 'src/dto/publication/publication.response.dto';
 import { AuthGuard } from 'src/guard/auth.guard';
 import { PublicationsService } from 'src/services/publication.service';
 import type { RequestWithUser } from 'src/types/request-with-user';
@@ -28,6 +34,19 @@ import type { RequestWithUser } from 'src/types/request-with-user';
 @Controller('api/publications')
 export class PublicationController {
   constructor(private readonly service: PublicationsService) {}
+
+  @Get('list')
+  @ApiOperation({ summary: 'Получение списка публикации' })
+  async getPublicationList(
+    @Query() query: PublicationListQuery,
+  ): Promise<PublicationListResponseDto> {
+    const result = await this.service.find(query);
+
+    return {
+      data: result.publications.map((i) => new PublicationDto(i)),
+      pagination: result.pagination,
+    };
+  }
 
   @Post()
   @UseGuards(AuthGuard)
@@ -76,6 +95,18 @@ export class PublicationController {
     @Param('id') id: string,
   ): Promise<PublicationResponseDto> {
     const publication = await this.service.delete(id, req.user.id);
+    return { data: new PublicationDto(publication) };
+  }
+
+  @Get(':id')
+  @ApiOperation({
+    summary: 'Получение публикации по ID',
+  })
+  @ApiOkResponse({ type: PublicationResponseDto })
+  async getOnePublication(
+    @Param('id') id: string,
+  ): Promise<PublicationResponseDto> {
+    const publication = await this.service.findOne(id);
     return { data: new PublicationDto(publication) };
   }
 }
