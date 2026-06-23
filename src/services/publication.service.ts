@@ -100,7 +100,13 @@ export class PublicationsService {
     if (!id) {
       throw new BadRequestException('Идентификатор публикации не указан');
     }
-    const publication = await this.repo.findOne({ where: { id: id } });
+    const publication = await this.repo.findOne({
+      where: { id: id },
+      relations: {
+        category: true,
+        subcategory: true,
+      },
+    });
     if (!publication) {
       throw new BadRequestException('Публикация не найдена');
     }
@@ -156,24 +162,21 @@ export class PublicationsService {
     }
 
     const publication = await this.repo.findOne({
-      where: {
-        id: id,
-      },
-      relations: {
-        category: true,
-        subcategory: true,
-      },
+      where: { id: id },
     });
 
     if (!publication) {
       throw new NotFoundException('Публикация не найдена');
     }
 
-    if (publication.authorId !== userId) {
+    const deleteResult = await this.repo.delete({
+      id: id,
+      authorId: userId,
+    });
+
+    if (deleteResult.affected !== 1) {
       throw new ForbiddenException('Вы не можете удалить публикацию');
     }
-
-    await this.repo.delete(id);
 
     return publication;
   }
