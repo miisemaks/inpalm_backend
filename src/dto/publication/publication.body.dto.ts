@@ -83,3 +83,47 @@ export class PublicationBodyEdit {
   @MaxLength(255)
   subcategory: string | null;
 }
+
+export class PublicationListQuery {
+  @ApiProperty({
+    type: 'string',
+    nullable: true,
+    required: false,
+    example: 'Публикация',
+  })
+  search: string | null;
+
+  @ApiProperty({
+    type: 'string',
+    nullable: true,
+    required: false,
+    example: '8e7aa9ab-db3f-47bf-89d2-53a4d6d0a34e',
+  })
+  category: string | null;
+
+  @ApiProperty({
+    type: 'string',
+    nullable: true,
+    required: false,
+    example: '8e7aa9ab-db3f-47bf-89d2-53a4d6d0a34e',
+  })
+  subcategory: string | null;
+
+  @ApiProperty({
+    type: 'number',
+    nullable: true,
+    default: 0,
+    required: false,
+    example: 1,
+  })
+  page: number | null;
+
+  @ApiProperty({
+    type: 'string',
+    nullable: true,
+    default: 20,
+    required: false,
+    example: 20,
+  })
+  per_page: number | null;
+}
