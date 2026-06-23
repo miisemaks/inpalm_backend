@@ -119,7 +119,7 @@ export class PublicationListQuery {
   page: number | null;
 
   @ApiProperty({
-    type: 'string',
+    type: 'number',
     nullable: true,
     default: 20,
     required: false,

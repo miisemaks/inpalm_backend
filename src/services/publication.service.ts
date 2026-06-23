@@ -210,7 +210,7 @@ export class PublicationsService {
   async find({
     per_page = 20,
     page = 0,
-    search = '',
+    search = null,
     category,
     subcategory,
   }: {
@@ -258,10 +258,10 @@ export class PublicationsService {
       publications,
       pagination: {
         totalItems: total,
-        currentPage: page ?? 1,
+        currentPage: page ?? 0,
         perPage: per_page ?? 20,
         totalPages,
-        hasNextPage: (page ?? 0) < totalPages,
+        hasNextPage: (page ?? 0) + 1 < totalPages,
       },
     };
   }
