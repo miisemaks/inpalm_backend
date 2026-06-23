@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Param,
   Post,
   Put,
@@ -60,6 +61,21 @@ export class PublicationController {
     @Body() data: PublicationBodyEdit,
   ): Promise<PublicationResponseDto> {
     const publication = await this.service.edit(id, data, req.user.id);
+    return { data: new PublicationDto(publication) };
+  }
+
+  @Delete(':id')
+  @UseGuards(AuthGuard)
+  @ApiOperation({
+    summary: 'Удаление публикации',
+  })
+  @ApiOkResponse({ type: PublicationResponseDto })
+  @ApiBadRequestResponse()
+  async deletePublication(
+    @Request() req: RequestWithUser,
+    @Param('id') id: string,
+  ): Promise<PublicationResponseDto> {
+    const publication = await this.service.delete(id, req.user.id);
     return { data: new PublicationDto(publication) };
   }
 }

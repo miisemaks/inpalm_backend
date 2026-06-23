@@ -5,6 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { isUUID } from 'class-validator';
 import { PublicationCategoryEntity } from 'src/models/publication-category.entity';
 import { PublicationSubcategoryEntity } from 'src/models/publication-subcategory.entity';
 import {
@@ -99,7 +100,13 @@ export class PublicationsService {
     if (!id) {
       throw new BadRequestException('Идентификатор публикации не указан');
     }
-    const publication = await this.repo.findOne({ where: { id: id } });
+    const publication = await this.repo.findOne({
+      where: { id: id },
+      relations: {
+        category: true,
+        subcategory: true,
+      },
+    });
     if (!publication) {
       throw new BadRequestException('Публикация не найдена');
     }
@@ -146,6 +153,37 @@ export class PublicationsService {
     }
 
     await publication.save();
+    return publication;
+  }
+
+  async delete(id: string, userId: string) {
+    if (typeof id !== 'string' || !isUUID(id)) {
+      throw new BadRequestException('ID публикации неверно указан');
+    }
+
+    const publication = await this.repo.findOne({
+      where: { id: id },
+    });
+
+    if (!publication) {
+      throw new NotFoundException('Публикация не найдена');
+    }
+
+    const user = await this.userRepo.findOne({ where: { id: userId } });
+
+    if (!user) {
+      throw new ForbiddenException('Такого пользователя не существует');
+    }
+
+    const deleteResult = await this.repo.delete({
+      id: id,
+      authorId: userId,
+    });
+
+    if (deleteResult.affected !== 1) {
+      throw new ForbiddenException('Вы не можете удалить публикацию');
+    }
+
     return publication;
   }
 }
