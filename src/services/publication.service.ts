@@ -169,6 +169,12 @@ export class PublicationsService {
       throw new NotFoundException('Публикация не найдена');
     }
 
+    const user = await this.userRepo.findOne({ where: { id: userId } });
+
+    if (!user) {
+      throw new ForbiddenException('Такого пользователя не существует');
+    }
+
     const deleteResult = await this.repo.delete({
       id: id,
       authorId: userId,
