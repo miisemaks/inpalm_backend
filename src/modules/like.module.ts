@@ -11,7 +11,6 @@ import { LikesService } from 'src/services/like.service';
   imports: [
     TypeOrmModule.forFeature([LikeEntity, UserEntity]),
     JwtModule.register({
-      global: true,
       secret: process.env.JWT_SECRET,
       signOptions: {},
     }),

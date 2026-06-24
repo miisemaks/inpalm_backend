@@ -7,6 +7,7 @@ import { UserModule } from './modules/user.module';
 import { AuthModule } from './modules/auth.module';
 import { PublicationModule } from './modules/publication.module';
 import { LikeModule } from './modules/like.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -15,6 +16,11 @@ import { LikeModule } from './modules/like.module';
     AuthModule,
     PublicationModule,
     LikeModule,
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET,
+      signOptions: {},
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

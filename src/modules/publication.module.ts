@@ -18,7 +18,6 @@ import { PublicationsService } from 'src/services/publication.service';
       UserEntity,
     ]),
     JwtModule.register({
-      global: true,
       secret: process.env.JWT_SECRET,
       signOptions: {},
     }),

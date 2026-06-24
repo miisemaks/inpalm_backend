@@ -39,7 +39,7 @@ export class LikeController {
   })
   @ApiOkResponse({ type: LikeResponseDto })
   @ApiBadRequestResponse()
-  async createPublication(
+  async createLike(
     @Request() req: RequestWithUser,
     @Body() data: LikeCreateBodyDto,
   ): Promise<LikeResponseDto> {
@@ -51,11 +51,11 @@ export class LikeController {
   @Delete(':id')
   @UseGuards(AuthGuard)
   @ApiOperation({
-    summary: 'Удаление публикации',
+    summary: 'Удаление лайка',
   })
   @ApiOkResponse({ type: LikeResponseDto })
   @ApiBadRequestResponse()
-  async deletePublication(
+  async deleteLike(
     @Request() req: RequestWithUser,
     @Param('id') id: string,
   ): Promise<LikeResponseDto> {
@@ -77,6 +77,7 @@ export class LikeController {
   }
 
   @Get('likes/user/:id')
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Получение лайков пользователя' })
   @ApiOkResponse({
     type: LikeResponseListDto,

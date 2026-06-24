@@ -10,7 +10,6 @@ import { UsersService } from 'src/services/user.service';
   imports: [
     TypeOrmModule.forFeature([UserEntity]),
     JwtModule.register({
-      global: true,
       secret: process.env.JWT_SECRET,
       signOptions: {},
     }),
