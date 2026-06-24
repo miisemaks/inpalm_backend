@@ -11,7 +11,6 @@ import { UsersService } from 'src/services/user.service';
   imports: [
     TypeOrmModule.forFeature([UserEntity, RefreshTokenEntity]),
     JwtModule.register({
-      global: true,
       secret: process.env.JWT_SECRET,
     }),
   ],

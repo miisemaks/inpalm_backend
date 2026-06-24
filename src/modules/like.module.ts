@@ -1,21 +1,22 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserController } from 'src/controllers/user.controller';
+import { LikeController } from 'src/controllers/like.controller';
 import { AuthGuard } from 'src/guard/auth.guard';
+import { LikeEntity } from 'src/models/like.entity';
 import { UserEntity } from 'src/models/user.entity';
-import { UsersService } from 'src/services/user.service';
+import { LikesService } from 'src/services/like.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserEntity]),
+    TypeOrmModule.forFeature([LikeEntity, UserEntity]),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: {},
     }),
   ],
-  controllers: [UserController],
-  providers: [UsersService, AuthGuard],
-  exports: [UsersService],
+  controllers: [LikeController],
+  providers: [LikesService, AuthGuard],
+  exports: [LikesService],
 })
-export class UserModule {}
+export class LikeModule {}
