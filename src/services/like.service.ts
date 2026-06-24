@@ -25,12 +25,19 @@ export class LikesService {
     },
     authorId: string,
   ) {
-    if (!data.id) {
+    if (!data.id || isUUID(data.id)) {
       throw new BadRequestException('Не указан ID модели');
     }
 
     if (!data.variant) {
       throw new BadRequestException('Не указан тип модели');
+    }
+
+    if (data.variant === ELikeVariant.publication) {
+      const publication = await this.repo.findOne({ where: { id: data.id } });
+      if (!publication) {
+        throw new NotFoundException('Публикация не найдена');
+      }
     }
 
     if (!authorId || !isUUID(authorId)) {
