@@ -63,11 +63,11 @@ export class LikesService {
   }
 
   async delete(id: string, authorId: string) {
-    if (typeof id !== 'string' && isUUID(id)) {
+    if (typeof id !== 'string' || isUUID(id)) {
       throw new BadRequestException('ID модели неправильно указан');
     }
 
-    if (typeof authorId !== 'string' && isUUID(authorId)) {
+    if (typeof authorId !== 'string' || isUUID(authorId)) {
       throw new BadRequestException('ID пользователя неправильно указан');
     }
 
