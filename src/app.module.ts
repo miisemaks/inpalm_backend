@@ -6,6 +6,7 @@ import { dataSourceOptions } from 'db/data-source';
 import { UserModule } from './modules/user.module';
 import { AuthModule } from './modules/auth.module';
 import { PublicationModule } from './modules/publication.module';
+import { LikeModule } from './modules/like.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { PublicationModule } from './modules/publication.module';
     UserModule,
     AuthModule,
     PublicationModule,
+    LikeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

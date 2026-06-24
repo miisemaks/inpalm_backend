@@ -41,3 +41,33 @@ export class UserDto {
     this.updatedAt = entity.updatedAt;
   }
 }
+
+@ApiSchema({
+  name: 'UserBasic',
+})
+export class UserBasicDto {
+  @ApiProperty({
+    type: 'string',
+  })
+  id: string;
+
+  @ApiProperty({
+    type: 'string',
+    nullable: true,
+    example: 'Иван',
+  })
+  firstName: string | null;
+
+  @ApiProperty({
+    type: 'string',
+    nullable: true,
+    example: 'Иванов',
+  })
+  lastName: string | null;
+
+  constructor(entity: UserEntity) {
+    this.id = entity.id;
+    this.firstName = entity.firstName;
+    this.lastName = entity.lastName;
+  }
+}
