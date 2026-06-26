@@ -64,7 +64,7 @@ export class SubscribesService {
     });
 
     if (existSubscribe) {
-      throw new BadRequestException('Лайк уже был создан');
+      throw new BadRequestException('Подписка уже была создана');
     }
 
     const like = new SubscribeEntity();
