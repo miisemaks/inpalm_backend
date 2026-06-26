@@ -10,7 +10,7 @@ import {
   SubscribeEntity,
 } from 'src/models/subscribe.entity';
 import { UserEntity } from 'src/models/user.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 @Injectable()
 export class SubscribesService {
@@ -73,5 +73,29 @@ export class SubscribesService {
     like.subscriberId = subscriberId;
 
     return await like.save();
+  }
+
+  async getSubscribes(userId: string) {
+    if (!isUUID(userId)) {
+      throw new BadRequestException('Пользователь не указан');
+    }
+
+    const user = await this.userRepo.findOne({ where: { id: userId } });
+
+    if (!user) {
+      throw new BadRequestException('Пользователь не найден');
+    }
+
+    const subscribes = await this.repo.find({
+      where: { subscriberId: userId },
+    });
+
+    const subscribersId = subscribes.map((i) => i.subscriberId);
+
+    const subscribers = await this.userRepo.find({
+      where: { id: In(subscribersId) },
+    });
+
+    return subscribers;
   }
 }
