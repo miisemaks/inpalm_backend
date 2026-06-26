@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth.module';
 import { PublicationModule } from './modules/publication.module';
 import { LikeModule } from './modules/like.module';
 import { JwtModule } from '@nestjs/jwt';
+import { SubscribeModule } from './modules/subscribe.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { JwtModule } from '@nestjs/jwt';
     AuthModule,
     PublicationModule,
     LikeModule,
+    SubscribeModule,
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,
